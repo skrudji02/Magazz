@@ -22,7 +22,7 @@ app.get('/', (req,res)=>{
 
 try{
     app.listen(port, ()=>{
-    console.log(`Server run http://localhost:${port}`)
+    console.log(`Server run http://localhost:${port}/api/guitar`)
 })
 }catch(e){
     console.log(e)
