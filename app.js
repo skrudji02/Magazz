@@ -14,7 +14,7 @@ app.use(bodyParser.json())
 
 app.use(express.static(__dirname + '/public'))
 
-app.use('/api', guitarRouter)
+app.use('/magazz', guitarRouter)
 
 app.get('/', (req,res)=>{
     res.status(200).render('product')
@@ -22,7 +22,7 @@ app.get('/', (req,res)=>{
 
 try{
     app.listen(port, ()=>{
-    console.log(`Server run http://localhost:${port}/api/guitar`)
+    console.log(`Server run http://localhost:${port}`)
 })
 }catch(e){
     console.log(e)

@@ -2,10 +2,15 @@ const db = require('../db')
 
 class GuitarController{
     async getGuitars(req, res){
-        const guitar = await db.query('SELECT * FROM guitar')
-        res.render('product', {guitars: guitar.rows})
+        const guitars = await db.query('SELECT * FROM guitar')
+        res.render('product', {guitars: guitars.rows})
     }
 
+    async getOneGuitar(req, res){
+        const id = req.params.id
+        const guitar = await db.query('SELECT * FROM guitar where id = $1', [id])
+        res.render('guitar', {guitar: guitar.rows[0]})
+    }
 
 }
 

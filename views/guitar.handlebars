@@ -1,0 +1,14 @@
+    
+      <button class="button_add">Добавить</button> 
+      <script>
+            import '../controller/card' from fs
+            document.querySelector('.button_add').addEventListener('click', function(){ 	
+               //import ('fs') from as  fs
+               fs.writeFileSync("hello.txt", "Привет ми ми ми!")
+            })
+      </script>
+      <img class = "picture" src="{{guitar.photo}}" alt="picture">
+      <h1>{{guitar.name_guitar}}</h1>
+      <h2>{{guitar.about_guitar}}</h2>
+      <h1>{{guitar.price}}</h1>              
+    
