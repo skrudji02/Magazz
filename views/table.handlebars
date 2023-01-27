@@ -1,0 +1,24 @@
+ 
+       <h1 class="entry-title">{{table}}</h1>
+      {{#each data_table}}
+       <div class="col-6">
+          <div class="p-2 border " >
+                <h1 class="obj" onclick="openObject('{{this.id}}')">Object({{this.id}})</h1>
+          </div>                  
+       </div>     
+      {{/each}}
+      <button class="addButton" onclick="openAdd()">Добавить</button>    
+      <button>Удалить</button>
+
+
+      <script>
+        function openObject(id){
+          const table = document.querySelector(".entry-title").textContent;
+          window.open("http://localhost:3000/magazz/admin/" + table + '/' + id, "_self");
+        }
+
+        function openAdd(){
+          const table = document.querySelector(".entry-title").textContent;
+          window.open("http://localhost:3000/magazz/admin/" + table + '/add', "hello", "width=200,height=400");
+        }
+      </script>    

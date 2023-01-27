@@ -1,0 +1,51 @@
+ <div class="container-fluid d-flex h-100 justify-content-center align-items-center p-0">
+  <form method="post">
+    <br>
+    <p class="text-center">Magazz</p>
+     <br>
+    <div class="form-group form-control-lg ">
+      <input type="text" name="userName" class="form-control" id="inputName" placeholder="User name" >
+      <h6 id="errorName"></h6>
+       <br>
+      <input type="email" name="email" class="form-control" id="inputEmail" placeholder="name@example.com" >
+      <h6 id="errorEmail"></h6>
+       <br>
+    <div class="form-group col-md-40 password ">
+      <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Password">   
+      <h6 id="errorPassword"></h6>
+    </div>     
+         <br>
+        <button type="submit" class="btn btn-primary " style="width: 250px;">Регистрация</button>
+        <script>
+          inputName.onfocus = () =>{
+            if(inputName.value.length < 4)
+              errorName.innerHTML = 'Имя от 4 до 9 символов.';
+            else
+              errorName.innerHTML = ' ';
+          }
+          inputName.onblur = () =>{
+            errorName.innerHTML = ' ';
+          }
+
+          inputEmail.onfocus = () =>{
+            if(!inputEmail.value.includes('@'))
+              errorEmail.innerHTML = 'Введите правильный email.';
+            else
+              errorEmail.innerHTML = ' ';
+          }
+          inputName.onblur = () =>{
+            errorEmail.innerHTML = ' ';
+          }
+
+          inputPassword.onfocus = () =>{
+            if(inputPassword.value.length < 7)
+              errorPassword.innerHTML = 'Длина пароля 7 символов.';
+            else
+              errorPassword.innerHTML = ' ';
+          }
+          inputPassword.onblur = () =>{
+            errorPassword.innerHTML = ' ';
+          }
+        </script>
+  </form>
+ </div>

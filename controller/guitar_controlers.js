@@ -12,6 +12,12 @@ class GuitarController{
         res.render('guitar', {guitar: guitar.rows[0]})
     }
 
+    async writeFile(req, res){
+        const fs = require('fs').promises;
+        console.log(1);
+        await fs.writeFile('fil.txt', "test");
+        res.render('guitar');
+    }
 }
 
 

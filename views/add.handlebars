@@ -1,0 +1,9 @@
+<form method="post">
+  {{#each column}}
+    <h1>{{this}}</h1>
+    <textarea name="{{this}}" id="{{this}}"></textarea>         
+  {{/each}}
+  <br>
+  <button id="save">Сохранить</button>
+</form>
+
