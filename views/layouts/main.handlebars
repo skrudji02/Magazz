@@ -16,27 +16,12 @@
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#" onclick="openHome()">Главная</a>
-                <script>
-                   function openHome(){
-                      window.open("http://localhost:3000/magazz/home", "_self")
-                   }
-              </script>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#" onclick="openProduct()">Товары</a>
-            <script>
-                 function openProduct(){
-                    window.open("http://localhost:3000/magazz/guitar", "_self")
-                 }
-            </script>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" onclick="openData()">Кабинет</a>
-                    <script>
-                      function openData(){
-                        window.open("http://localhost:3000/magazz/admin", "_self")
-                      }
-                   </script>
+            {{admin}}
           </li>
           <li class="nav-item">
             <a class="nav-link disabled">Отключенная</a>
@@ -44,30 +29,17 @@
         </ul>
         <form class="d-flex" role="search">
           <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Поиск">
-          <button class="btn btn-outline-success" onclick="openBasket()">Корзина</button>
-             <script>
-                 function openBasket(){
-                    window.open("http://localhost:3000/magazz/basket", "_blank")
-                 }
-             </script>   
+          <button class="btn btn-outline-success" onclick="openBasket()">Корзина</button> 
         </form>
       </div>
-      <a class="nav-link active" href="#" onclick="openRegistrate()">Регистрация</a>|
-          <script>
-              console.log(req.user);
-              function openRegistrate(){
-                    window.open("http://localhost:3000/magazz/registration", "_self")
-              }
-          </script>
-      <a class="nav-link active" href="#" onclick="openLogin()">Вход</a>
-              <script>
-                 function openLogin(){
-                    window.open("http://localhost:3000/magazz/login", "_self")
-                 }
-              </script>
+        {{authorization}}
     </div>
   </nav>
   <body>
     {{{body}}}
   </body>
 </html>
+
+<script src="/script/main.js"></script>
+<script src="/script/product.js"></script>
+<script src="/script/registration.js"></script>

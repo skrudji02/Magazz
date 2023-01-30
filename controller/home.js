@@ -1,7 +1,7 @@
 class Home{
     async renderHome(req,res){
-        res.render('home')
+        res.render('home');
     }
 }
 
-module.exports = new Home()
+module.exports = new Home();

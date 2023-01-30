@@ -8,17 +8,3 @@
        </div>     
       {{/each}}
       <button class="addButton" onclick="openAdd()">Добавить</button>    
-      <button>Удалить</button>
-
-
-      <script>
-        function openObject(id){
-          const table = document.querySelector(".entry-title").textContent;
-          window.open("http://localhost:3000/magazz/admin/" + table + '/' + id, "_self");
-        }
-
-        function openAdd(){
-          const table = document.querySelector(".entry-title").textContent;
-          window.open("http://localhost:3000/magazz/admin/" + table + '/add', "hello", "width=200,height=400");
-        }
-      </script>    

@@ -1,22 +1,19 @@
 const db = require('../db');
 const jwt = require('jsonwebtoken');
-const {secret} = require("./config");
-//const config = require('./config');
+const {secret} = require("../config");
+const Handlebars = require('handlebars');
 const axios = require('axios');
 
-const generateAccessToken = (id, roles)=>{
+const generateAccessToken = (id, username, roles)=>{
     const payload = {
         id,
+        username,
         roles
     };
     return jwt.sign(payload, secret, {expiresIn: "24h"});
 };
 
-
 class authController{
-    constructor(){
-        
-    }
     async postRegistration(req, res){
         const name_max = 9;
         const name_min = 4;
@@ -24,7 +21,7 @@ class authController{
 
         try{
             const user_name = await db.query('SELECT * FROM users WHERE username = $1', [req.body.userName]); 
-            if(user_name.rows[0] != undefined)                                                            //users.rows[0].username
+            if(user_name.rows[0] != undefined)                                                            
                 return res.render("Пользователь с таким именем уже существует");
 
             if(req.body.userName.length < name_min || req.body.userName.length > name_max)
@@ -49,15 +46,20 @@ class authController{
         try{
             const users = await db.query('SELECT * FROM users WHERE username = $1', [req.body.userName]);
             if(users.rows[0] != undefined && users.rows[0].password === req.body.password){
-                const token = generateAccessToken(users.rows[0].id, users.rows[0].role_user);
 
-                console.log('My Token:', token);
+                const token = generateAccessToken(users.rows[0].id, users.rows[0].username, users.rows[0].role_user);
                 res.cookie('Bearer', token);
-                //res.set('testtoken', {expires: Date.now()});
-                //res.set('authorization', `Bearer ${token}`);
-                //res.clearCookie("tok");
-                console.log(req.headers);
-                console.log(req.headers.cookie.split(' ')[1]);
+
+                Handlebars.registerHelper("authorization", () => {
+                    return new Handlebars.SafeString('<a class="nav-link active" href="#">'+users.rows[0].username+'</a>|'+'<a class="nav-link active" href="#" onclick="openLogin()">Выход</a>');
+                });
+
+                if(users.rows[0].role_user === 'ADMIN'){
+                    Handlebars.registerHelper("admin", () => {
+                        return new Handlebars.SafeString('<a class="nav-link" href="#" onclick="openData()">Кабинет</a>');
+                    });
+                }
+
                 return res.render('home', {token: token}); 
             }
             else
@@ -69,26 +71,26 @@ class authController{
         }
     }
 
-    async getUsers(req, res){
-        try{
-            const users = await db.query("SELECT * FROM users");
-            const table_db = await db.query("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' ORDER BY table_name");
-            console.log(table_db.rows['table_name']);
-            console.log(users.rows);
-            return res.render('users', {users: users.rows});
-        }
-        catch(err){
-            return res.render('Ошибка получения пользователя !!!');
-        }
-    }
-
     async getLogin(req, res){
-        console.log(req.headers.cookie)
         return res.render('login');
     }
 
     async getRegistration(req, res){
         return res.render('registration');
+    }
+
+    async exit(req, res){
+        res.clearCookie("Bearer");
+
+        Handlebars.registerHelper("authorization", () => {
+            return new Handlebars.SafeString('<a class="nav-link active" href="#" onclick="openRegistrate()">Регистрация</a>|<a class="nav-link active" href="#" onclick="openLogin()">Войти</a>');
+        });
+
+       Handlebars.registerHelper("admin", () => {
+            return new Handlebars.SafeString('');
+        });
+       
+        return res.render('home');
     }
 }
 

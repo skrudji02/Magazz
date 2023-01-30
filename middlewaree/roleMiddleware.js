@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const {secret} = require("../controller/config");
+const {secret} = require("../config");
 
 
 module.exports = function(roles){
@@ -9,21 +9,19 @@ module.exports = function(roles){
         }
 
         try{
-            //res.clearCookie("Bearer=");
-            const token = req.headers.cookie.split('=')[1];//token_get.split(' ')[1];//req.headers["authorization"];//req.headers.authorization.split(' ')[1];
+            const token = req.headers.cookie.split('=')[1];
             if(!token)
                 return res.status(403).render('Пользователь не авторизован1');
             
-            const {roles: userRoles} = jwt.verify(token, secret)
-            console.log(userRoles);
-            let hasRole = false
+            const {roles: userRoles} = jwt.verify(token, secret);
+            let hasRole = false;
             
                 if (roles.includes(userRoles)) {
-                    hasRole = true
+                    hasRole = true;
                 }
             
             if (!hasRole) {
-                return res.status(403).json({message: "У вас нет доступа"})
+                return res.status(403).json({message: "У вас нет доступа"});
         }
         next();
 
