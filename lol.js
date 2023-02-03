@@ -1,17 +1,12 @@
-let arr = [
-    { column_name: 'id' },
-    { column_name: 'username' },
-    { column_name: 'email' },
-    { column_name: 'password' },
-    { column_name: 'role_user' }
-  ];
-
-  delete arr[0];
-  let n = [];
-  for(let elem of arr){
-    if(elem != undefined)
-      n.push(elem.column_name);
+var twoSum = function(nums, target) {
+  for(let i = 0; i < nums.length; i++){
+      for(let j = 1; j < nums.length; j++){
+          if(nums[i] + nums[j] == target)
+              return [i, j];
+      }
   }
 
-  console.log(n);
+};
+
+  console.log(twoSum([3,3], 6));
 

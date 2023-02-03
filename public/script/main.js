@@ -11,7 +11,7 @@ function openData(){
 }
 
 function openBasket(){
-    window.open("http://localhost:3000/magazz/basket", "_blank");
+    window.open("http://localhost:3000/cart", "_blank");
 }
 
 function openRegistrate(){
