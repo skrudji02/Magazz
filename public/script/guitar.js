@@ -1,15 +1,13 @@
-const buttonAdd = document.getElementById('add');
-
-buttonAdd.addEventListener('click', function (event) {
-    event.preventDefault();
+$('body').on('click', '.button_add', async function () {
     let url = window.location.pathname;
     const id = url[url.length - 1];
     $.ajax({
         url: '/cart/' + id,
         contentType: 'application/json',
         method: 'POST',
-        success: function () {
-          },
+        success: function (massage) {
+           alert(massage);
+          }
     });
 });
 

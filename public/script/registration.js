@@ -1,4 +1,4 @@
-inputName.onfocus = () =>{
+/*inputName.onfocus = () =>{
     if(inputName.value.length < 4)
       errorName.innerHTML = 'Имя от 4 до 9 символов.';
     else
@@ -26,4 +26,4 @@ inputName.onfocus = () =>{
   }
   inputPassword.onblur = () =>{
     errorPassword.innerHTML = ' ';
-  }
+  }*/

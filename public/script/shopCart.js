@@ -1,27 +1,25 @@
-$('body').on('click', '.button_delete', async function () {
-    
-     let id = $(this).data('id');
-     $.ajax({
-         url: '/cart/',
-         method: 'DELETE',
-         dataType: 'html',
-         data: {text: `${id}` },
-         success: function (data) {
-             //$("div [class='col-6']").remove();
-             console.log(data);
-             $("div [class='col-6' data-id='" + data + "']").remove();
-             
-           }
-     });
+$('body').on('click', '.button_delete', function () {
+    let id = $(this).data('id');
+    console.log(id)
+    let promise = fetch('/cart/' + id, {
+		method: 'DELETE'
+	}).then(
+		response => {
+            return window.location.reload(true);  //$("form[data-id='" + id + "']").remove();
+		}
+	)
  });
 
- /*const buttonAdd = document.getElementById('submit');
- 
- buttonAdd.addEventListener('click', function (event) {
-     event.preventDefault();
-     let url = window.location.pathname;
-     const id = url[url.length - 1];
-     let request = new XMLHttpRequest();
-     request.open('POST', '/cart/' + id, true);
-     request.send();
+ /*$('body').on('click', '.button_delete', function () {
+    let id = $(this).data('id');
+    $.ajax({
+        url: '/cart/',
+        method: 'DELETE',
+        dataType: 'html',
+        data: {text: `${id}` },
+        success: async function (data) {
+            $("form[data-id='" + data + "']").remove();
+            //$(window).prop(location.href);
+          }
+    });
  });*/

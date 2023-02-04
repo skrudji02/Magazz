@@ -11,6 +11,7 @@ class Basket{
             const productID = await db.query('SELECT id_product FROM cart WHERE id_customer = $1', [userID]);
             let basket = [];
             let product = '';
+            //fix
             for(let elem of productID.rows){
                 product = await db.query('SELECT * FROM guitar where id = $1', [elem.id_product]);
                 basket.push(product.rows[0]);
@@ -31,7 +32,7 @@ class Basket{
             const id_customer = decodedData.id;
             const id_guitar = req.params.id;
             const add_crat = await db.query('INSERT INTO cart (id_customer, id_product, quantity) VALUES ($1, $2, $3)', [id_customer, id_guitar, 1]);
-            res.end();
+            res.send("Товар добавлен в карзину");
         }
         catch(err){
             console.log(err);
@@ -41,10 +42,10 @@ class Basket{
 
     async deleteFromBasket(req, res){
         try{
-            const productID = req.body.text//req.body.productID;//document.getElementById("del").innerHTML;//document.querySelector('#name').textContent;
+            const productID = req.params.id;//req.body.text//req.body.productID;//document.getElementById("del").innerHTML;//document.querySelector('#name').textContent;
             const delete_product = await db.query('DELETE FROM cart WHERE id_product = $1', [productID]);
     
-            return res.send(productID);
+            return res.send();
         }
         catch(err){
             console.log(err);
