@@ -1,0 +1,15 @@
+.header_area {
+    position: relative;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 99;
+}
+
+.home_banner_area {
+    background: url(../../styles/img/fender.jpg) no-repeat center bottom;
+    background-size: cover;
+    position: relative;
+    z-index: 1;
+    min-height: 790px;
+}
