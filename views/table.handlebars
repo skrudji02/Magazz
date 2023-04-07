@@ -1,10 +1,26 @@
- 
-       <h1 class="entry-title">{{table}}</h1>
-      {{#each data_table}}
-       <div class="col-6">
-          <div class="p-2 border " >
-                <h1 class="obj" onclick="openObject('{{this.id}}')">Object({{this.id}})</h1>
-          </div>                  
-       </div>     
-      {{/each}}
+<form name="userForm">
+    <div class="panel-body">
+        <button type="submit" class="btn btn-sm btn-primary" onclick="openAdd()">Добавить</button>
+        <a id="reset" class="btn btn-sm btn-primary">Сбросить</a>
+    </div>
+</form>
+
+<table class="table table-condensed table-striped table-bordered">
+    <thead>
+        <tr>
+            {{#each table}}
+                    <th>{{this}}</th>
+            {{/each}}
+        </tr>
+    </thead>
+    {{#each data_table}}
+        <thead><tr><th>{{this.id}}</th><th>{{this.price}}</th><th>{{this.data_add}}</th><th>{{this.name_guitar}}</th>
+        <th>{{this.about_guitar}}</th><th>{{this.photo}}</th><th><form data-id='{{this.id}}'><button data-id='{{this.id}}' id='button_delete' class="button_delete">Удалить</button></form></th><th></th></tr></thead>
+    {{/each}}
+</table>
       <button class="addButton" onclick="openAdd()">Добавить</button>    
+
+
+<script>
+
+</script>

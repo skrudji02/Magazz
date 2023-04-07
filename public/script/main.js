@@ -7,7 +7,7 @@ function openProduct(){
 }
 
 function openData(){
-    window.open("http://localhost:3000/admin/room", "_self");
+    window.open("http://localhost:3000/admin", "_self");
 }
 
 function openBasket(){
