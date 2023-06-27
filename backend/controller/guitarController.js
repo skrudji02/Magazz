@@ -1,13 +1,14 @@
-const db = require('../db');
+const guitarService = require('../service/guitar-service');
 
 class guitarController{
+
     async getGuitars(req, res){
         try{
-            const guitars = await db.query('SELECT * FROM acoustic_guitars');
-            res.json(guitars.rows);
-            //res.render('product', {guitars: guitars.rows});
+            const guitars = await guitarService.getAllGuitar();
+            return res.json(guitars);
         }
-        catch{
+        catch(err){
+            console.log(err);
             return res.status(400).render('Ошибка получения товаров !!!');
         }
     }
@@ -15,8 +16,8 @@ class guitarController{
     async getOneGuitar(req, res){
         try{
             const id = req.params.id;
-            const guitar = await db.query('SELECT * FROM acoustic_guitars where id = $1', [id]);
-            res.render('guitar', {guitar: guitar.rows[0]});
+            const guitar = await await guitarService.getOneGuitar(id);
+            return res.json(guitar);
         }
         catch(err){
             console.log(err);

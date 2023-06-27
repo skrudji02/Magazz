@@ -1,30 +1,42 @@
 const express = require('express');
-const { engine } = require ('express-handlebars');
 var bodyParser = require('body-parser');
-const router = require('./routes/index');
 const cors = require('cors');
+const sequelize = require('./db');
+const cookieParser = require('cookie-parser')
+const authController = require('./controller/authController');
+const errorMiddleware = require('./middlewares/error-middleware');
+const authMiddleware = require('./middlewares/auth-middleware');
+const models = require('./models/user-model');
+const router = require('./routes/router');
+const session = require('express-session');
+const passport = require('passport')
 
 const port = process.env.PORT || 5000;
-
 const app = express();
-const urlencodedParser = express.urlencoded({extended: false});
-
-app.engine('handlebars', engine({extname:'.handlebars', defaultLayout: 'main'}));
-app.set('view engine','handlebars');
-
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cookieParser());
+app.use(session({ secret: 'anything' }));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(cors({
+    credentials: true,
+    origin: 'http://localhost:3000'
+}));
 
-app.use(urlencodedParser);
 
-app.use(express.static(__dirname + '/public'));
+//app.get('/', authMiddleware, authController.getUsers);
+app.use('/magazz', router);
+app.use(errorMiddleware); // должен идти самым последним 
 
-app.use('/', router);
-
-try{
-    app.listen(port, ()=>{
-    console.log(`Server run http://localhost:${port}/magazz/guitar`);
-})
-}catch(e){
-    console.log(e);
+async function start(){
+    try{
+        await sequelize.authenticate();
+        await sequelize.sync();
+        app.listen(port, ()=>{console.log(`Server run http://localhost:${port}`);})
+    }catch(err){
+        console.log(err);
+    }
 }
+
+start();
+
