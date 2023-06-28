@@ -1,6 +1,7 @@
 import {makeAutoObservable} from 'mobx'; 
 import AuthService from '../services/AuthService';
 import UserService from '../services/UserService';
+import ProductService from '../services/ProductService';
 import axios from 'axios';
 import { AUTH_URL } from '../http';
 
@@ -71,6 +72,15 @@ export default class Store{
     async getUsers(){
         try{
             const response = await UserService.fetchUser();
+            console.log(response);
+        }catch(err){
+            console.log(err.response.data.message);
+        }
+    }
+
+    async addGuitar(name, price, img, typeId, brandId){
+        try{
+            const response = await ProductService.addGuitar(name, price, img, typeId, brandId);
             console.log(response);
         }catch(err){
             console.log(err.response.data.message);

@@ -5,28 +5,11 @@ import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Registration from './components/Registration';
-import Product from './components/Products';
-
+import Products from './components/Products';
+import Table from './components/Table';
+import Add from './components/AddProduct';
 
 function App() {
-
-
-
-{/*
-if(!store.isAuth){
-
-  return (
-    <div>
-      <Router>
-        <Routes>
-          <Route path='/magazz/user/login' element={<Login/>}></Route>   
-        </Routes>
-      </Router>
-    </div>
-    
-  );
-}
-*/}
 
   return (
    
@@ -36,7 +19,11 @@ if(!store.isAuth){
           <Route path='/magazz/home' element={<Home/>}></Route>
           <Route path='/magazz/user/registration' element={<Registration/>}></Route>  
           <Route path='/magazz/user/login' element={<Login/>}></Route>
-          <Route path='/magazz/product/' element={<Product/>}></Route>
+          <Route path='/magazz/product/guitar' element={<Products/>}></Route>
+
+          <Route path='/magazz/admin' element={<Products/>}></Route>
+          <Route path='/magazz/product' element={<Table/>}></Route>
+          <Route path='/magazz/product/guitarAdd' element={<Add/>}></Route>
         </Routes>
       </Router>
     </div>

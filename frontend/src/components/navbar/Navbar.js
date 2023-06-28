@@ -28,7 +28,10 @@ const Navbar = () => {
               <Link to='/magazz/home/' className="nav-link active" aria-current="page">Главная</Link>
             </li>
             <li className="nav-item">
-                <Link to='/magazz/product/' className="nav-link active">Товары</Link>
+                <Link to='/magazz/product/guitar' className="nav-link active">Товары</Link>
+            </li>
+            <li className="nav-item">
+                <Link to='/magazz/product/guitar' className="nav-link active">Админ</Link>
             </li>
           </ul>
           <form className="d-flex" role="search">

@@ -6,7 +6,7 @@ const homeController = require('../controller/homeController');
 const authMiddleware = require('../middlewares/auth-middleware');
 
 router.use('/user', userRouter);
-router.get('/home', authMiddleware, homeController.renderHome);
+router.get('/home', homeController.renderHome);
 router.use('/product', productRouter);
 
-module.exports = router
+module.exports = router;

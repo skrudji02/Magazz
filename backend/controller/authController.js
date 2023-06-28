@@ -42,7 +42,7 @@ class authController{
         try {
             const cookie = req.cookie;
             res.clearCookie("refreshToken"); 
-            return res.json({ss:"sds"}); 
+            return res.json({}); 
            
         } catch (err) {
             next(err);
