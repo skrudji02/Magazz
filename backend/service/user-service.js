@@ -1,6 +1,7 @@
 const {User} = require('../models/user-model');
 const TokenService = require('../service/token-service');
 const AuthError = require('../exceptions/authError');
+const { request } = require('express');
 
 class UserService{
 
@@ -11,10 +12,11 @@ class UserService{
              throw AuthError.BadRequest(`Пользователь с email: ${email} уже существует`);
         }
         const create_user =  await User.create({email, password});
+        const id = create_user.id;
         const role = create_user.role;
         const payload = {
+            id,
             email,
-            password,
             role
         };
         const token = TokenService.generateAccessToken(payload);
@@ -25,10 +27,11 @@ class UserService{
 
         const user = await User.findOne({where: {email}});
         if(user && user.password == password){
+            const id = user.id;
             const role = user.role;
             const payload = {
+                id,
                 email,
-                password,
                 role
             };
             const token = TokenService.generateAccessToken(payload);
@@ -47,17 +50,18 @@ class UserService{
         }
 
         const userData = TokenService.validateRefreshToken(refreshToken);
+     
     
         if (!userData) {
             throw ApiError.UnauthorizedError();
         }
         const email = userData.email;
         const user = await User.findOne({where: {email}});
-        const password = user.password;
+        const id = user.id;
         const role = user.role;
         const payload = {
+            id,
             email,
-            password,
             role
         };
         const token = TokenService.generateAccessToken(payload);
@@ -84,7 +88,6 @@ class UserService{
 
     async deleteUser(id){
         const user = await User.findOne({where: {id}});
-        console.log(user);
         const delete_user = await user.destroy();
         return `Пользователь с id:${id} удален`;
     }

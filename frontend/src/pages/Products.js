@@ -1,56 +1,36 @@
 import '../styles/css/product.css';
 import Navbar from '../components/navbar/Navbar';
-import Footer from './footer/Footer';
-import { useState, useEffect } from 'react';
+import Footer from '../components/footer/Footer';
+import { useState, useEffect, useContext } from 'react';
+import ProductService from '../services/ProductService';
+import { Context } from "../index";
+import ProductList from '../components/ProductList';
 
+import { observer } from 'mobx-react-lite';
 
-const Products = () => {
+const Products = observer(() => {
 
   const [guitar, setGuitar] = useState([]);
-
-  useEffect( () => {
-    fetch("http://localhost:5000/magazz/product/guitar")
-    .then(res => res.json())
-    .then(
-      (result) => {
-        setGuitar(result);
-      }
-    )
-  }, []);
-
-  const res = guitar.map(function (item) {
-    return <div className="col-lg-4 col-md-6">
-    <div className="single-product">
-      <div className="product-img">
-        <img
-          className="card-img"
-          src={item.img}
-          alt="" />
-        <div className="p_icon">
-          <a href="#">
-            <i className="ti-eye"></i>
-          </a>
-          <a href="#">
-            <i className="ti-heart"></i>
-          </a>
-          <a href="#">
-            <i className="ti-shopping-cart"></i>
-          </a>
-        </div>
-      </div>
-      <div className="product-btm">
-        <a href="#" className="d-block">
-          <h4 >{item.name}</h4>
-        </a>
-        <div className="mt-3">
-          <span className="mr-4">{item.price} p</span>
-        </div>
-      </div>
-    </div>
-  </div>;
-  });
+  const { store, ProductStore } = useContext(Context);
+  const [tipeId, setType] = useState([]);
 
 
+  async function getGuitars(typeId){
+    try{
+        const response = await ProductService.fetchGuitar(typeId);
+        setGuitar(response.data);
+    }catch(err){
+        console.log(err);
+    }
+  }
+
+  useEffect(()=>{
+    getGuitars(null);
+  },[])
+
+  useEffect(()=>{
+    getGuitars(tipeId);
+  },[tipeId])
 
   return (
     <>
@@ -69,7 +49,6 @@ const Products = () => {
         </div>
       </section>
 
-
       <section className="cat_product_area section_gap">
         <div className="container">
           <div className="row flex-row-reverse">
@@ -80,9 +59,7 @@ const Products = () => {
               </div>
               <div className="latest_product_inner">
                 <div className="row">
-                  {/* each */}
-                  {res}
-                  {/* /each */}
+                  <ProductList guitar={guitar}></ProductList>
                 </div>
               </div>
             </div>
@@ -96,13 +73,13 @@ const Products = () => {
                   <div className="widgets_inner">
                     <ul className="list">
                       <li>
-                        <a href="#">Акустические гитaры</a>
+                        <a onClick={() => setType(1)}>Акустические гитaры</a>
                       </li>
                       <li>
-                        <a href="#">Классические гитaры</a>
+                        <a onClick={() => setType(2)}>Классические гитaры</a>
                       </li>
                       <li>
-                        <a href="#">Укулеле</a>
+                        <a >Укулеле</a>
                       </li>
                     </ul>
                   </div>
@@ -135,6 +112,6 @@ const Products = () => {
     <Footer></Footer>
     </>
   );
-}
+});
 
 export default Products;

@@ -4,10 +4,12 @@ import UserService from '../services/UserService';
 import ProductService from '../services/ProductService';
 import axios from 'axios';
 import { AUTH_URL } from '../http';
+import jwt_decode from 'jwt-decode';
 
 export default class Store{
 
     user = {};
+    role = 'USER';
     isAuth = false;
 
     constructor(){
@@ -22,12 +24,18 @@ export default class Store{
         this.user = user;
     }
 
+    setRole(role){
+        this.role = role;
+    }
+
     async login(email, password){
         try{
             const response = await AuthService.login(email, password);
             localStorage.setItem('token', response.data.accessToken);
+            const userData = jwt_decode(response.data.accessToken);
             this.setAuth(true);
             this.setUser(email);
+            this.setRole(userData.role);
         }catch(err){
             console.log(err.response.data.message);
         }
@@ -37,10 +45,10 @@ export default class Store{
     async registration(email, password) {
         try {
             const response = await AuthService.registration(email, password);
-            console.log(response);
             localStorage.setItem('token', response.data.accessToken);
+            const userData = jwt_decode(response.data.accessToken);
             this.setAuth(true);
-            this.setUser(response.data.user);
+            this.setUser(userData.email);
         } catch (err) {
             console.log(err.response.data.message);
         }
@@ -52,6 +60,7 @@ export default class Store{
             localStorage.removeItem('token');
             this.setAuth(false);
             this.setUser({});
+            this.setRole('USER');
         } catch (err) {
             console.log(err.response.data.message);
         }
@@ -61,9 +70,10 @@ export default class Store{
         try{
             const response = await axios.get(AUTH_URL + '/user/refresh', {withCredentials: true});
             localStorage.setItem('token', response.data.accessToken);
+            const userData = jwt_decode(response.data.accessToken);
             this.setAuth(true);
-            console.log(response.data);
-            this.setUser(response.data.user);
+            this.setUser(userData.email);
+            this.setRole(userData.role);
         }catch(err){
             console.log(err.response.data.message);
         }
@@ -72,15 +82,6 @@ export default class Store{
     async getUsers(){
         try{
             const response = await UserService.fetchUser();
-            console.log(response);
-        }catch(err){
-            console.log(err.response.data.message);
-        }
-    }
-
-    async addGuitar(name, price, img, typeId, brandId){
-        try{
-            const response = await ProductService.addGuitar(name, price, img, typeId, brandId);
             console.log(response);
         }catch(err){
             console.log(err.response.data.message);

@@ -1,20 +1,19 @@
-import React, {useContext, useState, useEffect}from 'react';
+import React, {useContext, useEffect}from 'react';
 import { Link } from 'react-router-dom';
 import { Context } from '../../index';
 import {observer} from 'mobx-react-lite';
 
-const Navbar = () => {
+const Navbar = observer(() => {
+  
   const {store} = useContext(Context);
 
-
-
   useEffect( () => {
-    console.log(store);
     if(localStorage.getItem('token')){
       store.checkAuth();
+     
     }
   }, []);
-  
+
     return(
     <nav className="navbar navbar-expand-lg" >
       <div className="container-fluid">
@@ -30,9 +29,7 @@ const Navbar = () => {
             <li className="nav-item">
                 <Link to='/magazz/product/guitar' className="nav-link active">Товары</Link>
             </li>
-            <li className="nav-item">
-                <Link to='/magazz/product/guitar' className="nav-link active">Админ</Link>
-            </li>
+                { store.role == 'ADMIN' ? <li className="nav-item"><Link to='/magazz/product' className="nav-link active">Админ</Link></li> : <li></li>}
           </ul>
           <form className="d-flex" role="search">
             <button className="btn btn-outline-success">Корзина</button> 
@@ -47,6 +44,6 @@ const Navbar = () => {
     </nav>
       
     );
-}
+})
 
-export default observer(Navbar);
+export default Navbar;

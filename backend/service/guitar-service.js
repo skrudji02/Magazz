@@ -1,10 +1,15 @@
-const {Product, Type, Brand} = require('../models/product-model');
+const {Product, Type} = require('../models/product-model');
 
 class GuitarService{
 
     async getAllGuitar(){
         const guitars = await Product.findAll();
         return guitars;
+    }
+
+    async getTypeGuitar(typeId){
+        const guitars = await Product.findAndCountAll({where:{typeId}});
+        return guitars.rows;
     }
 
     async getOneGuitar(id){
@@ -40,15 +45,10 @@ class GuitarService{
         return create_type;
     }
 
-    async getBrands(){
-        const brands = await Brand.findAll();
-        return brands;
-    }
-
-    async addBrand(name_brand){
-        const brand = await Brand.build({ name: name_brand });
-        await brand.save();
-        return brand;
+    async deleteType(id){
+        const type = await Type.findOne({where: {id}});
+        const delete_type = await type.destroy();
+        return `Гитара с id:${id} удалена`;
     }
 
 }

@@ -3,9 +3,15 @@ const guitarService = require('../service/guitar-service');
 class guitarController{
 
     async getGuitars(req, res){
+        let {typeId} = req.query;
         try{
-            const guitars = await guitarService.getAllGuitar();
-            return res.json(guitars);
+            if(typeId){
+                const guitars = await guitarService.getTypeGuitar(typeId);
+                return res.json(guitars);
+            }else{
+                const guitars = await guitarService.getAllGuitar();
+                return res.json(guitars);
+            }
         }
         catch(err){
             console.log(err);
@@ -15,7 +21,8 @@ class guitarController{
 
     async getOneGuitar(req, res){
         try{
-            const id = req.body.id;
+            const {id} = req.params;
+            console.log(id);
             const guitar = await guitarService.getOneGuitar(id);
             return res.json(guitar);
         }
@@ -28,6 +35,7 @@ class guitarController{
     async addGuitar(req, res){
         try{
             const {name, price, img, typeId, brandId} = req.body;
+            console.log(img)
             const guitar = await guitarService.addGuitar(name, price, img, typeId, brandId);
             return res.json(guitar);
         }
@@ -39,7 +47,9 @@ class guitarController{
 
     async deleteGuitar(req, res){
         try{
-            const id = req.body.id;
+            
+            const {id} = req.params;
+            console.log(id);
             const delete_guitar = await guitarService.deleteGuitar(id);
             return res.json(delete_guitar);
         }catch(err){
@@ -71,7 +81,7 @@ class guitarController{
 
     async addType(req, res){
         try{
-            const name_type = req.body.name_type;
+            const {name_type} = req.body;
             console.log( name_type)
             const create_type = await guitarService.addType(name_type);
             return res.json(create_type);
@@ -81,27 +91,16 @@ class guitarController{
         }
     }
 
-    async getBrand(req, res){
+    async deleteType(req, res){
         try{
-            const brand = await guitarService.getBrands();
-            return res.json(brand);
+            const {id} = req.params;
+            const create_type = await guitarService.deleteType(id);
+            return res.json(create_type);
         }catch(err){
             console.log(err);
             return res.status(400).render('Ошибка получения товара !!!');
         }
     }
-
-    async addBrand(req, res){
-        try{
-            const name_brand = req.body.name_brand;
-            const create_brand = await guitarService.addBrand(name_brand);
-            return res.json(create_brand);
-        }catch(err){
-            console.log(err);
-            return res.status(400).render('Ошибка получения товара !!!');
-        }
-    }
-
 
 }
 

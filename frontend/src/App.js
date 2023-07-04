@@ -1,13 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react';
-import {observer} from 'mobx-react-lite';
-import { Context } from './index';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
-import Home from "./components/Home";
-import Login from "./components/Login";
-import Registration from './components/Registration';
-import Products from './components/Products';
-import Table from './components/Table';
-import Add from './components/AddProduct';
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Registration from './pages/Registration';
+import Products from './pages/Products';
+import Admin from './pages/Admin';
+import Table from './pages/MusicInstrument';
+import Brand from './pages/Brand';
+import Type from './pages/Type';
 
 function App() {
 
@@ -21,9 +21,11 @@ function App() {
           <Route path='/magazz/user/login' element={<Login/>}></Route>
           <Route path='/magazz/product/guitar' element={<Products/>}></Route>
 
-          <Route path='/magazz/admin' element={<Products/>}></Route>
-          <Route path='/magazz/product' element={<Table/>}></Route>
-          <Route path='/magazz/product/guitarAdd' element={<Add/>}></Route>
+
+          <Route path='/magazz/product' element={<Admin/>}></Route>
+          <Route path='/magazz/product/admin_guitar' element={<Table/>}></Route>
+          <Route path='/magazz/product/brand' element={<Brand/>}></Route>
+          <Route path='/magazz/product/type' element={<Type/>}></Route>
         </Routes>
       </Router>
     </div>

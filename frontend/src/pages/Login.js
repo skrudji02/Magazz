@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { Context } from "../index";
 import { observer } from 'mobx-react-lite';
-import '../components/login.css'
 import { useNavigate } from 'react-router-dom';
+import '../styles/css/login.css';
 
 const Login = () => {
 
