@@ -1,44 +1,31 @@
-import {makeAutoObservable} from "mobx";
+import { makeAutoObservable } from "mobx";
 import TypeService from '../services/TypeService';
 
-export default class TypeStore{
+export default class TypeStore {
 
-    typesData = [];
-
-    constructor(){
-        makeAutoObservable(this);
+  async getTypes() {
+    try {
+      const response = await TypeService.getTypes();
+      return response.data;
+    } catch (err) {
+      console.log(err.response.data.message);
     }
+  }
 
-    setTypes(types) {
-        this.typesData = types;
+  async addType(name) {
+    try {
+      const response = await TypeService.addType(name);
+      return response.data;
+    } catch (err) {
+      console.log(err.response.data.message);
     }
+  }
 
-    get types(){
-        return this.typesData;
+  async deleteType(id) {
+    try {
+      const response = await TypeService.deleteType(id);
+    } catch (err) {
+      console.log(err.response.data.message);
     }
-
-    async getTypes(){
-        try{
-            const response = await TypeService.getTypes();
-            this.setTypes(response.data);
-        }catch(err){
-            console.log(err.response.data.message);
-        }
-    }
-
-    async addType(name){
-        try{
-            const response = await TypeService.addType(name);
-        }catch(err){
-            console.log(err.response.data.message);
-        }
-    }
-
-    async deleteType(id){
-        try{
-            const response = await TypeService.deleteType(id);
-        }catch(err){
-            console.log(err.response.data.message);
-        }
-    }
+  }
 }

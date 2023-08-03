@@ -2,27 +2,51 @@ const guitarService = require('../service/guitar-service');
 
 class guitarController{
 
-    async getGuitars(req, res){
-        let {typeId} = req.query;
-        try{
-            if(typeId){
-                const guitars = await guitarService.getTypeGuitar(typeId);
-                return res.json(guitars);
-            }else{
-                const guitars = await guitarService.getAllGuitar();
-                return res.json(guitars);
+  async getGuitars(req, res) {
+    const { typeId, brandsId } = req.query;
+  
+    try {
+      if (typeId) {
+        const guitars = await guitarService.getTypeGuitar(typeId);
+        if(brandsId){
+          for(let i = 0; i < brandsId.length; i++){
+            brandsId[i] = Number(brandsId[i]);
+          }
+          return res.json(guitars.filter((guitar) => {
+            for(let brand of brandsId){
+              if(guitar.brandId === brand)
+                return guitar;
             }
+          }));
         }
-        catch(err){
-            console.log(err);
-            return res.status(400).render('Ошибка получения товаров !!!');
+        return res.json(guitars);
+      }
+      else {
+        const guitars = await guitarService.getAllGuitar();
+        if(brandsId){
+          for(let i = 0; i < brandsId.length; i++){
+            brandsId[i] = Number(brandsId[i]);
+          }
+          return res.json(guitars.filter((guitar) => {
+            for(let brand of brandsId){
+              if(guitar.brandId === brand)
+                return guitar;
+            }
+          }));
         }
+        return res.json(guitars);
+      }
     }
+    catch (err) {
+      console.log(err);
+      return res.status(400).render('Ошибка получения товаров !!!');
+    }
+  }
 
     async getOneGuitar(req, res){
         try{
             const {id} = req.params;
-            console.log(id);
+            console.log(`OOOO ${id}`);
             const guitar = await guitarService.getOneGuitar(id);
             return res.json(guitar);
         }

@@ -3,33 +3,29 @@ import {makeAutoObservable} from "mobx";
 
 export default class MusicStore{
     
-    productData = [];
-
-    constructor(){
-        makeAutoObservable(this);
-    }
-
-    setProduct(product) {
-        this.productData = product;
-    }
-
-    get product(){
-        return this.productData;
-    }
-
-    async getProduct(typeId){
+    async getProducts(typeId){
         try{
             const response = await ProductService.fetchGuitar(typeId);
-            this.setProduct(response.data);
+            return response.data;
         }catch(err){
             console.log(err.response.data.message);
         }
     }
 
+    async getProduct(id){
+      try{
+        const response = await ProductService.getOneGuitar(id);
+        console.log(response.data)
+        return response.data;
+      }catch(err){
+        console.log(err.response.data.message);
+      }
+    }
+
     async addProduct(name, price, img, typeId, brandId){
         try{
-            console.log(img);
             const response = await ProductService.addGuitar(name, price, img, typeId, brandId);
+            return response.data;
         }catch(err){
             console.log(err.response.data.message);
         }
@@ -42,7 +38,6 @@ export default class MusicStore{
     async deleteProduct(id){
         try{
             const response = await ProductService.deleteGuitar(id);
-            console.log(response);
         }catch(err){
             console.log(err.response.data.message);
         }

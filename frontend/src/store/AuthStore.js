@@ -1,12 +1,10 @@
 import {makeAutoObservable} from 'mobx'; 
 import AuthService from '../services/AuthService';
-import UserService from '../services/UserService';
-import ProductService from '../services/ProductService';
 import axios from 'axios';
 import { AUTH_URL } from '../http';
 import jwt_decode from 'jwt-decode';
 
-export default class Store{
+export default class AuthStore{
 
     user = {};
     role = 'USER';
@@ -74,15 +72,6 @@ export default class Store{
             this.setAuth(true);
             this.setUser(userData.email);
             this.setRole(userData.role);
-        }catch(err){
-            console.log(err.response.data.message);
-        }
-    }
-
-    async getUsers(){
-        try{
-            const response = await UserService.fetchUser();
-            console.log(response);
         }catch(err){
             console.log(err.response.data.message);
         }

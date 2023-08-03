@@ -1,17 +1,16 @@
-import AxiosResponse from 'axios';
-import $auth from '../http';
- 
-export default class Authorization{
+import {$auth}  from '../http';
 
-    static async login(email, password) {
-        return $auth.post('/user/login', {email, password});
-    }
+export default class Authorization {
 
-    static async registration(email, password){
-        return $auth.post('/user/registration', {email, password});
-    }
+  static async login(email, password) {
+    return $auth.post('/user/login', { email, password });
+  }
 
-    static async logout(){
-        return $auth.post('/user/logout');
-    }
+  static async registration(email, password) {
+    return $auth.post('/user/registration', { email, password });
+  }
+
+  static async logout() {
+    return $auth.post('/user/logout');
+  }
 }

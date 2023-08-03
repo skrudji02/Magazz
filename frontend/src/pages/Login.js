@@ -8,7 +8,7 @@ const Login = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { store } = useContext(Context);
+  const { authStore } = useContext(Context);
   const navigate = useNavigate();
 
   return (
@@ -40,8 +40,8 @@ const Login = () => {
 
                   <div className="d-flex justify-content-center">
                     <button onClick={() => {
-                      store.login(email, password); 
-                      if(!store.isAuth)  
+                      authStore.login(email, password); 
+                      if(!authStore.isAuth)  
                         navigate('/magazz/home');
                     }} 
                     type="button" 

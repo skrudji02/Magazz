@@ -5,11 +5,11 @@ import {observer} from 'mobx-react-lite';
 
 const Navbar = observer(() => {
   
-  const {store} = useContext(Context);
+  const {authStore} = useContext(Context);
 
   useEffect( () => {
     if(localStorage.getItem('token')){
-      store.checkAuth();
+      authStore.checkAuth();
      
     }
   }, []);
@@ -29,13 +29,13 @@ const Navbar = observer(() => {
             <li className="nav-item">
                 <Link to='/magazz/product/guitar' className="nav-link active">Товары</Link>
             </li>
-                { store.role == 'ADMIN' ? <li className="nav-item"><Link to='/magazz/product' className="nav-link active">Админ</Link></li> : <li></li>}
+                { authStore.role == 'ADMIN' ? <li className="nav-item"><Link to='/magazz/product' className="nav-link active">Админ</Link></li> : <li></li>}
           </ul>
           <form className="d-flex" role="search">
             <button className="btn btn-outline-success">Корзина</button> 
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                {store.isAuth ? <div className="nav-link active">{store.user} | <a onClick={() => store.logout()}>Выйти</a></div> : <div className="nav-link active"><Link to='/magazz/user/registration'>Регистрация</Link> | <Link to='/magazz/user/login'>Войти</Link></div>}
+                {authStore.isAuth ? <div className="nav-link active">{authStore.user} | <a onClick={() => authStore.logout()}>Выйти</a></div> : <div className="nav-link active"><Link to='/magazz/user/registration'>Регистрация</Link> | <Link to='/magazz/user/login'>Войти</Link></div>}
               </li>
             </ul>
           </form>

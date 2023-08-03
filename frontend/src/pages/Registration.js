@@ -9,7 +9,7 @@ const Registration = () =>{
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [password_repit, setPasswordRepit] = useState('');
-    const {store} = useContext(Context);
+    const {authStore} = useContext(Context);
     const navigate = useNavigate();
 
     return(
@@ -52,7 +52,7 @@ const Registration = () =>{
                 <div className="d-flex justify-content-center">
                   <button onClick={() => {
                     if(password == password_repit)
-                      store.registration(email, password);
+                      authStore.registration(email, password);
                   }} 
                   type="button" 
                   className="btn btn-primary btn-block btn-lg ">Зарегистрироваться</button>

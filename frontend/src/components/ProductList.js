@@ -1,11 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 
 const ProductList = observer(({ guitar }) => {
-    console.log(guitar)
     return (guitar.map(function (item) {
         return <div className="col-lg-4 col-md-6">
-            <div className="single-product">
+          
+            <Link to={'/magazz/product/guitar/' + item.id} className="single-product" aria-current="page">
                 <div className="product-img">
                     <img
                         className="card-img"
@@ -31,7 +32,7 @@ const ProductList = observer(({ guitar }) => {
                         <span className="mr-4">{item.price} p</span>
                     </div>
                 </div>
-            </div>
+            </Link>
         </div>;
     }));
 });

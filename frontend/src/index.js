@@ -1,26 +1,26 @@
 import React, {createContext} from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import Store from './store/store';
+import AuthStore from './store/AuthStore';
 import BrandStore from './store/BrandStore';
 import TypeStore from './store/TypeStore';
 import MusicInstrument from './store/MusicStore';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-export const store = new Store();
+export const authStore = new AuthStore();
 export const brandStore = new BrandStore();
 export const typeStore = new TypeStore();
 export const musicInstrumentStore = new MusicInstrument();
 
 export const Context = createContext({
-    store, brandStore, typeStore, musicInstrumentStore,
+  authStore, brandStore, typeStore, musicInstrumentStore,
     
 })
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <Context.Provider value={{
-        store, brandStore, typeStore, musicInstrumentStore,
+      authStore, brandStore, typeStore, musicInstrumentStore,
     }}>
         <App />
     </Context.Provider>,

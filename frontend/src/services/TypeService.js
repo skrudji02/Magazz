@@ -1,17 +1,17 @@
-import $auth from '../http';
+import {$host} from '../http';
 
 export default class TypeService{
     
     static getTypes(){
-        return $auth.get("/product/type");
+        return $host.get("/product/type");
     }
 
     static addType(name_type){
-        return $auth.post("/product/addType", {name_type});
+        return $host.post("/product/addType", {name_type});
     }
 
     static deleteType(id){
-        return $auth.delete(`/product/type/${id}`, {id});
+        return $host.delete(`/product/type/${id}`, {id});
     }
 
 }

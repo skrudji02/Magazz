@@ -1,17 +1,17 @@
-import $auth from '../http';
+import  {$host}  from '../http';
 
-export default class BrandService{
-    
-    static getBrand(){
-        return $auth.get("/product/brand");
-    }
+export default class BrandService {
 
-    static addBrand(name_brand){
-        return $auth.post("/product/addBrand", {name_brand});
-    }
+  static getBrand() {
+    return $host.get("/product/brand");
+  }
 
-    static deleteBrand(id){
-        return $auth.delete(`/product/brand/${id}`, {id});
-    }
+  static addBrand(name_brand) {
+    return $host.post("/product/addBrand", { name_brand });
+  }
+
+  static deleteBrand(id) {
+    return $host.delete(`/product/brand/${id}`, { id });
+  }
 
 }
