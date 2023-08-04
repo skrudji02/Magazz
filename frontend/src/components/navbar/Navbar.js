@@ -32,7 +32,7 @@ const Navbar = observer(() => {
                 { authStore.role == 'ADMIN' ? <li className="nav-item"><Link to='/magazz/product' className="nav-link active">Админ</Link></li> : <li></li>}
           </ul>
           <form className="d-flex" role="search">
-            <button className="btn btn-outline-success">Корзина</button> 
+          <Link to='/magazz/basket' className="btn btn-outline-success">Корзина</Link> 
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
                 {authStore.isAuth ? <div className="nav-link active">{authStore.user} | <a onClick={() => authStore.logout()}>Выйти</a></div> : <div className="nav-link active"><Link to='/magazz/user/registration'>Регистрация</Link> | <Link to='/magazz/user/login'>Войти</Link></div>}

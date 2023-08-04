@@ -33,6 +33,7 @@ const Product = () => {
             <div className="types-list">
               {guitar.name}
             </div>
+            <button type="button" className="btn btn-primary btn-sm">В Корзину</button>
           </div>
         </div>
       </div>

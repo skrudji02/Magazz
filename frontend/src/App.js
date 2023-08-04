@@ -9,6 +9,7 @@ import Admin from './pages/admin/Admin';
 import Table from './pages/admin/MusicInstrument';
 import Brand from './pages/admin/Brand';
 import Type from './pages/admin/Type';
+import Basket from './pages/Basket';
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
           <Route path='/magazz/user/login' element={<Login/>}></Route>
           <Route path='/magazz/product/guitar' element={<Products/>}></Route>
           <Route path='/magazz/product/guitar/:id' element={<Product/>}></Route>
+          <Route path='/magazz/basket' element={<Basket/>}></Route>
 
 
           <Route path='/magazz/product' element={<Admin/>}></Route>

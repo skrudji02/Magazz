@@ -1,7 +1,7 @@
 const sequelize = require('../db');
 const {DataTypes} = require('sequelize');
 
-const Basket = sequelize.define('basket', {
+const Basket = sequelize.define('baskets', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
 })
 
