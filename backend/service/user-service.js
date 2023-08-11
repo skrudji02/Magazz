@@ -1,111 +1,113 @@
-const {User} = require('../models/user-model');
+const { User } = require('../models/user-model');
 const TokenService = require('../service/token-service');
 const AuthError = require('../exceptions/authError');
 const { request } = require('express');
+const { Basket } = require('../models/basket-model');
 
-class UserService{
+class UserService {
 
-    async registration(email, password){
+  async registration(email, password) {
 
-        const user_email = await User.findOne({where: {email}});
-        if(user_email){    
-             throw AuthError.BadRequest(`Пользователь с email: ${email} уже существует`);
-        }
-        const create_user =  await User.create({email, password});
-        const id = create_user.id;
-        const role = create_user.role;
-        const payload = {
-            id,
-            email,
-            role
-        };
-        const token = TokenService.generateAccessToken(payload);
-        return token;
+    const user_email = await User.findOne({ where: { email } });
+    if (user_email) {
+      throw AuthError.BadRequest(`Пользователь с email: ${email} уже существует`);
+    }
+    const create_user = await User.create({ email, password });
+    const id = create_user.id;
+    const role = create_user.role;
+    const create_basket = await Basket.create({ userId: id });
+    const payload = {
+      id,
+      email,
+      role
+    };
+    const token = TokenService.generateAccessToken(payload);
+    return token;
+  }
+
+  async login(email, password) {
+
+    const user = await User.findOne({ where: { email } });
+    if (user && user.password == password) {
+      const id = user.id;
+      const role = user.role;
+      const payload = {
+        id,
+        email,
+        role
+      };
+      const token = TokenService.generateAccessToken(payload);
+      return token;
+    }
+    else {
+      throw AuthError.BadRequest("Некорректные данные");
     }
 
-    async login(email, password){
+  }
 
-        const user = await User.findOne({where: {email}});
-        if(user && user.password == password){
-            const id = user.id;
-            const role = user.role;
-            const payload = {
-                id,
-                email,
-                role
-            };
-            const token = TokenService.generateAccessToken(payload);
-            return token; 
-        }
-        else{
-            throw AuthError.BadRequest("Некорректные данные"); 
-        }
-        
+  async refresh(refreshToken) {
+
+    if (!refreshToken) {
+      throw ApiError.UnauthorizedError();
     }
 
-    async refresh(refreshToken) {
-        
-        if (!refreshToken) {
-            throw ApiError.UnauthorizedError();
-        }
+    const userData = TokenService.validateRefreshToken(refreshToken);
 
-        const userData = TokenService.validateRefreshToken(refreshToken);
-     
-    
-        if (!userData) {
-            throw ApiError.UnauthorizedError();
-        }
-        const email = userData.email;
-        const user = await User.findOne({where: {email}});
-        const id = user.id;
-        const role = user.role;
-        const payload = {
-            id,
-            email,
-            role
-        };
-        const token = TokenService.generateAccessToken(payload);
 
-        return token;
+    if (!userData) {
+      throw ApiError.UnauthorizedError();
     }
+    const email = userData.email;
+    const user = await User.findOne({ where: { email } });
+    const id = user.id;
+    const role = user.role;
+    const payload = {
+      id,
+      email,
+      role
+    };
+    const token = TokenService.generateAccessToken(payload);
 
-    // Service users (test postman). For the admin panel.
+    return token;
+  }
 
-    async getAllUsers() {   
-        const users = await User.findAll();
-        return users;
+  // Service users (test postman). For the admin panel.
+
+  async getAllUsers() {
+    const users = await User.findAll();
+    return users;
+  }
+
+  async addUser(email_user, password_user, role_user) {
+    const user_email = await User.findOne({ where: { email_user } });
+    if (user_email) {
+      throw AuthError.BadRequest(`Пользователь с email: ${email_user} уже существует`);
     }
+    const create_user = await User.build({ email: email_user, password: password_user, role: role_user });
+    await create_user.save();
+    return create_user;
+  }
 
-    async addUser(email_user, password_user, role_user) {   
-        const user_email = await User.findOne({where: {email_user}});
-        if(user_email){    
-             throw AuthError.BadRequest(`Пользователь с email: ${email_user} уже существует`);
-        }
-        const create_user = await User.build({ email: email_user, password: password_user, role: role_user });
-        await create_user.save();
-        return create_user;
+  async deleteUser(id) {
+    const user = await User.findOne({ where: { id } });
+    const delete_user = await user.destroy();
+    return `Пользователь с id:${id} удален`;
+  }
+
+  async updateUser(id, email_user, password_user, role_user) {
+
+    const user_email = await User.findOne({ where: { email_user } });
+    if (user_email) {
+      throw AuthError.BadRequest(`Пользователь с email: ${email_user} уже существует`);
     }
-
-    async deleteUser(id){
-        const user = await User.findOne({where: {id}});
-        const delete_user = await user.destroy();
-        return `Пользователь с id:${id} удален`;
-    }
-
-    async updateUser(id, email_user, password_user, role_user){
-
-        const user_email = await User.findOne({where: {email_user}});
-        if(user_email){    
-             throw AuthError.BadRequest(`Пользователь с email: ${email_user} уже существует`);
-        }
-        const user = await User.findOne({where: {id}});
-        user.email = email_user;
-        user.password = password_user;
-        user.role = role_user;
-        await user.save();
-        const update_user = await user.reload();
-        return update_user;
-    }
+    const user = await User.findOne({ where: { id } });
+    user.email = email_user;
+    user.password = password_user;
+    user.role = role_user;
+    await user.save();
+    const update_user = await user.reload();
+    return update_user;
+  }
 
 }
 

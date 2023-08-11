@@ -1,4 +1,4 @@
-import  {$host}  from '../http';
+import { $host } from '../http';
 
 export default class BrandService {
 

@@ -6,7 +6,7 @@ import { Context } from "../index";
 
 const Product = () => {
 
-  const { musicInstrumentStore } = useContext(Context);
+  const { musicInstrumentStore, basketStore } = useContext(Context);
   const [guitar, setGuitar] = useState('');
   const { id } = useParams();
 
@@ -33,7 +33,7 @@ const Product = () => {
             <div className="types-list">
               {guitar.name}
             </div>
-            <button type="button" className="btn btn-primary btn-sm">В Корзину</button>
+            <button type="button" className="btn btn-primary btn-sm" onClick={() => {basketStore.addInBasket(guitar.id); alert("Товар добавлен в корзину")}}>В Корзину</button>
           </div>
         </div>
       </div>

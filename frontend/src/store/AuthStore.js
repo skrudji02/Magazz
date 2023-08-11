@@ -6,6 +6,7 @@ import jwt_decode from 'jwt-decode';
 
 export default class AuthStore{
 
+    id = '';
     user = {};
     role = 'USER';
     isAuth = false;
@@ -26,6 +27,10 @@ export default class AuthStore{
         this.role = role;
     }
 
+    setUserId(userId) {
+      this.id = userId;
+    }
+
     async login(email, password){
         try{
             const response = await AuthService.login(email, password);
@@ -34,6 +39,7 @@ export default class AuthStore{
             this.setAuth(true);
             this.setUser(email);
             this.setRole(userData.role);
+            this.setUserId(userData.id);
         }catch(err){
             console.log(err.response.data.message);
         }
@@ -59,6 +65,7 @@ export default class AuthStore{
             this.setAuth(false);
             this.setUser({});
             this.setRole('USER');
+            this.setUserId('');
         } catch (err) {
             console.log(err.response.data.message);
         }
@@ -72,6 +79,8 @@ export default class AuthStore{
             this.setAuth(true);
             this.setUser(userData.email);
             this.setRole(userData.role);
+            this.setUserId(userData.id);
+            return userData.id;
         }catch(err){
             console.log(err.response.data.message);
         }
