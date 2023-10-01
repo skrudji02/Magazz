@@ -14,11 +14,9 @@ module.exports = function(req, res, next){
         }
 
         const userData = TokenService.validateAccessToken(accessToken);
-        console.log(`Middle: ${userData}`);
         if (!userData) {
             return next(AuthError.UnauthorizedError());
         }
-        //console.log(`Middle: ${userData}`);
         req.user = userData;
         next();
 

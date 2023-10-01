@@ -5,7 +5,9 @@ class basketController {
   async getBasketUser(req, res) {
     try {
       const { userId } = req.query;
+      console.log(userId);
       const basket_user = await basketService.getBasket(userId);
+      console.log(basket_user);
       return res.json(basket_user);
     } catch (err) {
       console.log(err);
@@ -15,12 +17,12 @@ class basketController {
 
   async addProductBasket(req, res) {
     try {
-      const { userId, productId } = req.body;
-      const add_product = await basketService.addInBasket(userId, productId);
+      const { userId, productId, quantity } = req.body;
+      const add_product = await basketService.addInBasket(userId, productId, quantity);
       return res.json(add_product);
     } catch (err) {
       console.log(err);
-      return res.status(400).render('Ошибка получения товара !!!');
+      return res.status(400).render('Ошибка добавления товара !!!');
     }
   }
 

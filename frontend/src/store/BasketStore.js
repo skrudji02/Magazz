@@ -11,16 +11,17 @@ export default class BasketStore {
     try {
       const userId = await this.userId();
       const response = await BasketService.getBasketUser(userId);
+      console.log(response.data)
       return response.data;
     } catch (err) {
       console.log(err.response.data.message);
     }
   }
 
-  async addInBasket(productId) {
+  async addInBasket(productId, quantity) {
     try {
       const userId = await this.userId();
-      const response = await BasketService.addInBasketUser(userId, productId);
+      const response = await BasketService.addInBasketUser(userId, productId, quantity);
       return response.data;
     } catch (err) {
       console.log(err.response.data.message);

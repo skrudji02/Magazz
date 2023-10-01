@@ -1,8 +1,8 @@
 const { User } = require('../models/user-model');
+const { Basket } = require('../models/basket-model');
+const bcrypt = require('bcrypt')
 const TokenService = require('../service/token-service');
 const AuthError = require('../exceptions/authError');
-const { request } = require('express');
-const { Basket } = require('../models/basket-model');
 
 class UserService {
 
@@ -12,7 +12,8 @@ class UserService {
     if (user_email) {
       throw AuthError.BadRequest(`Пользователь с email: ${email} уже существует`);
     }
-    const create_user = await User.create({ email, password });
+    const hashPassword = await bcrypt.hash(password, 5);
+    const create_user = await User.create({ email, password: hashPassword });
     const id = create_user.id;
     const role = create_user.role;
     const create_basket = await Basket.create({ userId: id });
@@ -26,9 +27,11 @@ class UserService {
   }
 
   async login(email, password) {
-
+    
     const user = await User.findOne({ where: { email } });
-    if (user && user.password == password) {
+    let comparePassword = bcrypt.compareSync(password, user.password);
+
+    if (user && comparePassword) {
       const id = user.id;
       const role = user.role;
       const payload = {

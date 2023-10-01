@@ -1,10 +1,9 @@
 import React from 'react';
-import '../header/header.css';
 
 const Header = () => {
     return(
-        <header className="header_area">
-            <section className="home_banner_area mb-40"></section>
+        <header className="header_area text-center">
+            <img src="\img\fender.jpg" className="img-fluid " alt="..."></img>
         </header>
     );
 }

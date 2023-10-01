@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 
 const ProductList = observer(({ guitar }) => {
     return (guitar.map(function (item) {
-        return <div className="col-lg-4 col-md-6">
+        return <div className="col-lg-4 col-md-2">
           
             <Link to={'/magazz/product/guitar/' + item.id} className="single-product" aria-current="page">
                 <div className="product-img">

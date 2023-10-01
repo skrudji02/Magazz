@@ -5,6 +5,7 @@ class BasketService {
 
   async getBasket(userId) {
     const basket_user = await Basket.findOne({ where: { userId }, include: BasketProduct });
+    console.log(basket_user);
     let productBasket = [];
     for(let product of basket_user.basket_products){
       let informProduct = await Product.findOne({ where: { id: product.productId}});
@@ -13,7 +14,7 @@ class BasketService {
     return productBasket;
   }
 
-  async addInBasket(userId, productId) {
+  async addInBasket(userId, productId, quantity) {
     const basket_user = await Basket.findOne({ where: { userId }, include: BasketProduct });
     for(let product of basket_user.basket_products){
       if(product.productId === productId){
@@ -22,7 +23,7 @@ class BasketService {
       }
     }
     const basketId = await Basket.findOne({ where: { userId } });
-    const add_product = await BasketProduct.build({ basketId: basketId.id, productId: productId });
+    const add_product = await BasketProduct.build({ basketId: basketId.id, productId: productId, quantity: quantity });
     await add_product.save();
     return add_product;
   }

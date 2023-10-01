@@ -1,64 +1,64 @@
-/*Baner*/
-.banner_area {
-  background: #f6f6f6;
+.rating-area {
+	overflow: hidden;
+	width: 265px;
+
+}
+.rating-area:not(:checked) > input {
+	display: none;
+}
+.rating-area:not(:checked) > .star-rating {
+	float: right;
+	width: 42px;
+	padding: 0;
+	cursor: pointer;
+	font-size: 32px;
+	line-height: 32px;
+	color: lightgrey;
+	text-shadow: 1px 1px #bbb;
+}
+.rating-area:not(:checked) > .star-rating:before {
+	content: '★';
+}
+.rating-area > input:checked ~ .star-rating {
+	color: gold;
+	text-shadow: 1px 1px #c60;
+}
+.rating-area:not(:checked) > .star-rating:hover,
+.rating-area:not(:checked) > .star-rating:hover ~ .star-rating {
+	color: gold;
+}
+.rating-area > input:checked + .star-rating:hover,
+.rating-area > input:checked + .star-rating:hover ~ .star-rating,
+.rating-area > input:checked ~ .star-rating:hover,
+.rating-area > input:checked ~ .star-rating:hover ~ .star-rating,
+.rating-area > .star-rating:hover ~ input:checked ~ .star-rating {
+	color: gold;
+	text-shadow: 1px 1px goldenrod;
+}
+.rate-area > .star-rating:active {
+	position: relative;
 }
 
-.banner_inner {
-  width: 100%;
-  min-height: 200px;
-  z-index: 1;
-}
-
-.types-list-button {
-  display: inline;
-  margin: 0 10px;
-  flex-shrink: 0;
-  border-radius: 80px;
-  background: #D9D9D9;
-}
-
-.text-categories{
-  /*background-color: #2a2a2a;*/
-  padding-left: 70px;
+.radio-toolbar input[type="radio"] {
+  display: none;
 }
 
 
-
-
-
-
-/* End Baner*/
-
-/* Product */
-.cat_product_area .latest_product_inner {
-  padding-top: 30px;
-  margin-bottom: -50px;
+.user-rating{
+	width: 265px;
 }
 
-.single-product .product-img {
-  position: relative;
-  overflow: hidden;
+.user-rating .star-user {
+	float: right;
+	width: 42px;
+	padding: 0;
+	cursor: pointer;
+	font-size: 32px;
+	line-height: 32px;
+	color: gold;
+	text-shadow: 1px 1px goldenrod;
 }
 
-.single-product .product-btm {
-  padding: 22px 25px 18px;
-  border: 1px solid #f0f2f1;
-  text-align: left;
-}
-
-.single-product .product-btm h4 {
-  color: #4a4a4a;
-  font-size: 14px;
-  font-weight: 400;
-  text-transform: uppercase;
-  margin-bottom: 0px;
-  transition: all 300ms linear 0s;
-}
-
-.single-product .product-btm span {
-  font-family: "Heebo", sans-serif;
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 16px;
-  color: #2a2a2a;
+.user-rating .star-user:before {
+	content: '★';
 }

@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import {Context} from "../index";
 import {observer} from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
-import '../styles/css/login.css';
+
 
 const Registration = () =>{
 
@@ -51,9 +51,12 @@ const Registration = () =>{
 
                 <div className="d-flex justify-content-center">
                   <button onClick={() => {
-                    if(password == password_repit)
+                    if(password === password_repit) {
                       authStore.registration(email, password);
-                  }} 
+                    }
+                    navigate('/magazz/user/login', { replace: false })
+                  }
+                } 
                   type="button" 
                   className="btn btn-primary btn-block btn-lg ">Зарегистрироваться</button>
                 </div>

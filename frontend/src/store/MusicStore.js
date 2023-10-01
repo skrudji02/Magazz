@@ -1,7 +1,12 @@
 import ProductService from '../services/ProductService';
 import {makeAutoObservable} from "mobx";
+import jwt_decode from 'jwt-decode';
 
 export default class MusicStore{
+
+  async userId(){
+    return jwt_decode(localStorage.getItem('token')).id;
+  }
     
     async getProducts(typeId){
         try{
@@ -14,7 +19,8 @@ export default class MusicStore{
 
     async getProduct(id){
       try{
-        const response = await ProductService.getOneGuitar(id);
+        const userId = await this.userId();
+        const response = await ProductService.getOneGuitar(id, userId);
         console.log(response.data)
         return response.data;
       }catch(err){

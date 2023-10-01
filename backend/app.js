@@ -9,9 +9,9 @@ const authMiddleware = require('./middlewares/auth-middleware');
 const models = require('./models/user-model');
 const router = require('./routes/router');
 const session = require('express-session');
-const passport = require('passport')
+const passport = require('passport');
+const { AppConfig } = require('./config/app.config');
 
-const port = process.env.PORT || 5000;
 const app = express();
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -32,7 +32,7 @@ async function start(){
     try{
         await sequelize.authenticate();
         await sequelize.sync();
-        app.listen(port, ()=>{console.log(`Server run http://localhost:${port}`);})
+        app.listen(AppConfig.defaultPort, ()=>{console.log(`Server run http://localhost:${AppConfig.defaultPort}`);})
     }catch(err){
         console.log(err);
     }

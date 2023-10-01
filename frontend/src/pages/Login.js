@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react';
 import { Context } from "../index";
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
-import '../styles/css/login.css';
 
 const Login = () => {
 
@@ -41,8 +40,7 @@ const Login = () => {
                   <div className="d-flex justify-content-center">
                     <button onClick={() => {
                       authStore.login(email, password); 
-                      if(!authStore.isAuth)  
-                        navigate('/magazz/home');
+                      navigate('/magazz/home');
                     }} 
                     type="button" 
                     className="btn btn-primary btn-block btn-lg ">Войти</button>

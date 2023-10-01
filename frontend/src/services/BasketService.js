@@ -6,8 +6,8 @@ export default class BasketService {
     return $host.get(`/basket?userId=${userId}`, { userId });
   }
 
-  static addInBasketUser(userId, productId) {
-    return $host.post('/basket', { userId, productId });
+  static addInBasketUser(userId, productId, quantity) {
+    return $host.post('/basket', { userId, productId, quantity });
   }
 
   static deleteProductBasket(userId, productId) {

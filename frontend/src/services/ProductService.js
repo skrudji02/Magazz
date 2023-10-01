@@ -6,8 +6,8 @@ export default class ProductService{
         return $host.get('/product/guitar', {params: {typeId, brandsId}});
     }
 
-    static getOneGuitar(id){
-      return $host.get(`/product/guitar/${id}`, {id});
+    static getOneGuitar(id, userId){
+      return $host.get(`/product/guitar/${id}`, {params: {userId}});
     }
 
     static addGuitar(name, price, img, typeId, brandId){

@@ -1,4 +1,4 @@
-import '../styles/css/product.css';
+import '../styles/css/products.css';
 import Navbar from '../components/navbar/Navbar';
 import Footer from '../components/footer/Footer';
 import { useState, useEffect, useContext } from 'react';
@@ -10,7 +10,6 @@ import { observer } from 'mobx-react-lite';
 
 const Products = observer(() => {
 
-
   const { typeStore, brandStore } = useContext(Context);
   const [brandsList, setListBrands] = useState([]);
   const [typesList, setListTypes] = useState([]);
@@ -18,7 +17,6 @@ const Products = observer(() => {
   const [tipeId, setType] = useState([]);
   const [brandsId, setBrandsId] = useState([]);
   let listBrandsId = [];
-
 
   async function getGuitars(typeId, brandsId) {
     try {
@@ -55,9 +53,6 @@ const Products = observer(() => {
     getGuitars(tipeId);
   }, [tipeId])
 
-
-
-
   return (
     <>
       <Navbar></Navbar>
@@ -65,8 +60,8 @@ const Products = observer(() => {
         <section className="banner_area" >
           <div className="row" >
             <div className="col-lg-4 d-flex align-items-center" >
-              <div className="banner_inner d-flex align-items-center">
-                <div className="container ">
+              <div className="banner d-flex align-items-center">
+                <div className="container">
                   <div className="mb-3 mb-md-0 ">
                     <div className='text-categories'>
                       <h2>Категории товаров</h2>
@@ -79,6 +74,7 @@ const Products = observer(() => {
             <div className="col-lg-8 d-flex align-items-center">
               <div className="container ">
                 <div className="types-list">
+                <button className="types-list-button-all">Все гитары</button>
                   {typesList.map((type) => {
                     return <button className="types-list-button" onClick={() => setType(type.id)}>{type.name}</button>
                   })}
@@ -93,10 +89,6 @@ const Products = observer(() => {
           <div className="container">
             <div className="row flex-row-reverse">
               <div className="col-lg-9">
-                <div className="product_top_bar">
-                  <div className="left_dorp">
-                  </div>
-                </div>
                 <div className="latest_product_inner">
                   <div className="row">
                     <ProductList guitar={guitar}></ProductList>
