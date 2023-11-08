@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom';
 import '../styles/css/product.css';
 import Navbar from '../components/navbar/Navbar';
 import Specification from '../components/Specification';
@@ -10,23 +10,29 @@ import '../styles/css/style.css';
 
 const Product = () => {
 
-  const { musicInstrumentStore, basketStore, ratingStore } = useContext(Context);
+  const { musicInstrumentStore, basketStore, ratingStore, authStore } = useContext(Context);
   const [guitar, setGuitar] = useState('');
-  const [rating, setRating] = useState('');
-  const { id } = useParams();
+  const [specification, setSpecification] = useState('');
+  const [ratingUser, setRatingUser] = useState('');
+  const { id, typeId } = useParams();
   const [stars, setStars] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [menu, setMenu] = useState('Reviews');
+  const [userId, setUserId] = useState(0);
   const listStars = [];
 
   useEffect(() => {
-    musicInstrumentStore.getProduct(id).then((product) => { setGuitar(product.guitar); setRating(product.ratingProduct) });
+    console.log(typeId);
+    authStore.checkAuth().then((user_id) => {
+      setUserId(user_id);
+      musicInstrumentStore.getProduct(id, user_id).then((product) => {  setGuitar(product.guitar); setSpecification(product.specification); setRatingUser(product.ratingProduct)})
+    });
     star();
-  }, [rating]);
+  }, [ratingUser]);
 
   const star = () => {
 
-    for (let i = 0; i < rating; i++) {
+    for (let i = 0; i < ratingUser; i++) {
       listStars.push( <label className='star-user'></label>);
     }
     setStars(listStars);
@@ -66,7 +72,7 @@ const Product = () => {
                 <button class="btn btn-primary ms-2" onClick={() => setQuantity(quantity + 1)}>+</button>
               </div>
               <h2 className='price'>{guitar.price} p</h2>
-              <button className="btn btn-primary" onClick={() => { basketStore.addInBasket(guitar.id, quantity); alert("Товар добавлен в корзину") }}>В Корзину</button>
+              <button className="btn btn-primary" onClick={() => { basketStore.addInBasket(userId, guitar.id, quantity); alert("Товар добавлен в корзину") }}>В Корзину</button>
             </div>
           </div>
         </div>
@@ -91,7 +97,8 @@ const Product = () => {
 
         </ul>
         <div class="tab-content" id="myTabContent">
-          {menu === 'Specification' ? <Specification/> : <Reviews rating={rating} ratingStore={ratingStore} guitar={guitar} renderStars={renderStars}/>}
+          {console.log(userId)}
+          {menu === 'Specification' ? <Specification specification={specification}/> : <Reviews ratingUser={ratingUser} ratingStore={ratingStore} guitar={guitar} renderStars={renderStars} userId={userId}/>}
         </div>
       </div>
     </section>

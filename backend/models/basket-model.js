@@ -10,6 +10,9 @@ const BasketProduct = sequelize.define('basket_products', {
     quantity: {type: DataTypes.INTEGER, defaultValue: 1}
 }) 
 
+Basket.hasMany(BasketProduct);
+BasketProduct.belongsTo(Basket);
+
 module.exports = {
     Basket,
     BasketProduct

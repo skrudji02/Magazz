@@ -6,10 +6,9 @@ class authController {
     try {
       const { email, password } = req.body;
       const create_user = await userService.registration(email, password);
-      res.cookie("refreshToken", create_user.refreshToken);
+      res.cookie("refreshToken", create_user.token.refreshToken);
       return res.json(create_user);
-    }
-    catch (err) {
+    } catch (err) {
       next(err);
     }
   }
@@ -17,11 +16,9 @@ class authController {
   async login(req, res, next) {
     try {
       const { email, password } = req.body;
-      console.log('aaaaaaaaa');
-      const create_user = await userService.login(email, password);
-      res.cookie("refreshToken", create_user.refreshToken);
-      return res.json(create_user);
-
+      const userData = await userService.login(email, password);
+      res.cookie("refreshToken", userData.token.refreshToken);
+      return res.json(userData);
     } catch (err) {
       next(err);
     }
@@ -32,7 +29,6 @@ class authController {
       const cookie = req.cookie;
       res.clearCookie("refreshToken");
       return res.json({});
-
     } catch (err) {
       next(err);
     }
@@ -42,14 +38,12 @@ class authController {
     try {
       const { refreshToken } = req.cookies;
       const token = await userService.refresh(refreshToken);
-      res.cookie('refreshToken', token.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
+      res.cookie('refreshToken', token.token.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
       return res.json(token);
     } catch (err) {
       next(err);
     }
   }
-
-
 }
 
 module.exports = new authController();

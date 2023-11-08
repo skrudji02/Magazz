@@ -3,11 +3,12 @@ import {$host} from '../http';
 export default class ProductService{
     
     static fetchGuitar(typeId, brandsId){
-        return $host.get('/product/guitar', {params: {typeId, brandsId}});
+      console.log(typeId);
+        return $host.get(`/catalog/types/${typeId}`, {params: {typeId, brandsId}});
     }
 
     static getOneGuitar(id, userId){
-      return $host.get(`/product/guitar/${id}`, {params: {userId}});
+      return $host.get(`/catalog/types/:id/product/${id}/`, {params: {userId}});
     }
 
     static addGuitar(name, price, img, typeId, brandId){

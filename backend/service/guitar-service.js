@@ -1,4 +1,6 @@
-const {Product, Type} = require('../models/product-model');
+const { Product } = require('../models/product-model');
+const { Type } = require('../models/type-model');
+const { SpecificationsProducts } = require('../models/specification-model');
 
 class GuitarService{
 
@@ -14,7 +16,9 @@ class GuitarService{
 
     async getOneGuitar(id){
         const guitar = await Product.findOne({where: {id}});
-        return guitar;
+        const specification_product = await SpecificationsProducts.findOne({ attributes: ['denomination'], where: { productId: id} });
+        const specification = specification_product.denomination;
+        return { guitar, specification };
     }
 
     async addGuitar(name_guitar, price_guitar, img_guitar, typeId, brandId) {   

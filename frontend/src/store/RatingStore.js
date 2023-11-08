@@ -4,14 +4,12 @@ import jwt_decode from 'jwt-decode';
 
 export default class RatingStore {
 
-  async userId(){
-    return jwt_decode(localStorage.getItem('token')).id;
-  }
 
-  async setRating(rate, productId) {
+  async setRating(rate, productId, userId) {
     try {
-      const userId = await this.userId();
-      const response = await RatingService.setRatingUser(rate, userId, productId);
+      console.log('sxsxsxss');
+      console.log(userId);
+      const response = await RatingService.setRatingUser(rate, productId, userId);
       return;
     } catch (err) {
       console.log(err.response.data.message);
@@ -21,7 +19,8 @@ export default class RatingStore {
   async getTopProduct() {
     try {
       const response = await RatingService.getRecomProduct();
-      return response.data.list_products;
+      console.log(response.data);
+      return response.data;
     } catch (err) {
       console.log(err.response.data.message);
     }

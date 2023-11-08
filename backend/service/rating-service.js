@@ -1,13 +1,11 @@
-const { Rating } = require('../models/product-model');
+const { Rating } = require('../models/rating-model');
 const { Product } = require('../models/product-model');
+const sequelize = require('../db');
 
 class RatingService {
   
   async getRatingOneProduct(userId, id) {
-    console.log(id);
-    console.log(userId);
     const rating = await Rating.findOne({ where: {userId: userId, productId: id} });
-    console.log(rating);
     return rating;
   }
 
@@ -17,9 +15,27 @@ class RatingService {
     return rating;
   }
 
-  async bestProductByRating() {
-    const products = await Product.findAll();
-    let list_products = [];
+  async writeRatingProduct(productId, rate) {
+    const rating_product = await Rating.findAll({
+      attributes: [[sequelize.fn('AVG', sequelize.col('rate')), 'rating']],
+      raw: true,
+      where: {productId: productId}
+    });
+    console.log(rating_product[0].rating);
+    const product = await Product.findOne({ where: { id: productId } });
+    product.rating = Number(rating_product[0].rating).toFixed(1);
+    await product.save();
+    const update_product = await product.reload();
+    return update_product;
+  }
+
+  async bestProduct() {
+    const topProducts = await Product.findAll({
+      order: [["rating", "DESC"]],
+      limit: 3,
+    });
+    return topProducts;
+    /*let list_products = [];
     for(let product of products){
       const { count }  = await Rating.findAndCountAll({ where: {productId: product.id, rate: 2} })
       if(count > 0){
@@ -39,7 +55,7 @@ class RatingService {
       }
     });
 
-    return { list_products };
+    return { list_products };*/
   }
 
 }

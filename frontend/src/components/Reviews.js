@@ -1,8 +1,10 @@
 import React from 'react';
 
 
-const Reviews = ({ rating, ratingStore, guitar, renderStars }) => {
+
+const Reviews = ({ ratingUser, ratingStore, guitar, renderStars, userId }) => {
   return (
+
     <div class="tab-pane fade show active">
       <div class="row ">
         <div class="col-lg-6 d-flex justify-content-center">
@@ -54,7 +56,7 @@ const Reviews = ({ rating, ratingStore, guitar, renderStars }) => {
         </div>
         <div class="col-lg-6 ">
           <div class="review_box">
-            {!rating ? <>
+            {!ratingUser ? <>
               <h4 className='text-center'>Оцените товар</h4>
 
               <div class="container d-flex justify-content-center">
@@ -64,15 +66,15 @@ const Reviews = ({ rating, ratingStore, guitar, renderStars }) => {
                   </div>
                   <div class="col">
                     <div class="rating-area">
-                      <input type="radio" id="star-5" name="rating" value="5" onClick={(e) => ratingStore.setRating(e.target.value, guitar.id)} />
+                      <input type="radio" id="star-5" name="rating" value="5" onClick={(e) => ratingStore.setRating(e.target.value, guitar.id, userId)} />
                       <label className='star-rating' for="star-5" title="Оценка «5»"></label>
-                      <input type="radio" id="star-4" name="rating" value="4" onClick={(e) => ratingStore.setRating(e.target.value, guitar.id)} />
+                      <input type="radio" id="star-4" name="rating" value="4" onClick={(e) => ratingStore.setRating(e.target.value, guitar.id, userId)} />
                       <label className='star-rating' for="star-4" title="Оценка «4»"></label>
-                      <input type="radio" id="star-3" name="rating" value="3" onClick={(e) => ratingStore.setRating(e.target.value, guitar.id)} />
+                      <input type="radio" id="star-3" name="rating" value="3" onClick={(e) => ratingStore.setRating(e.target.value, guitar.id, userId)} />
                       <label className='star-rating' for="star-3" title="Оценка «3»"></label>
-                      <input type="radio" id="star-2" name="rating" value="2" onClick={(e) => ratingStore.setRating(e.target.value, guitar.id)} />
+                      <input type="radio" id="star-2" name="rating" value="2" onClick={(e) => ratingStore.setRating(e.target.value, guitar.id, userId)} />
                       <label className='star-rating' for="star-2" title="Оценка «2»"></label>
-                      <input type="radio" id="star-1" name="rating" value="1" onClick={(e) => ratingStore.setRating(e.target.value, guitar.id)} />
+                      <input type="radio" id="star-1" name="rating" value="1" onClick={(e) => ratingStore.setRating(e.target.value, guitar.id, userId)} />
                       <label  className='star-rating' for="star-1" title="Оценка «1»"></label>
                     </div>
                   </div>

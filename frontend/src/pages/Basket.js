@@ -6,13 +6,18 @@ const Basket = observer(() => {
 
   const { authStore, basketStore } = useContext(Context);
   const [basketList, setListBasket] = useState([]);
+  const [userId, setUserId] = useState(0);
 
   useEffect(() => {
     //basketStore.getUserBasket(authStore.id).then(products => setListBasket(products));
     if (localStorage.getItem('token')) {
-      authStore.checkAuth();
-      basketStore.getUserBasket().then(products => {
-        setListBasket(products); console.log(products);});
+      //authStore.checkAuth();
+      authStore.checkAuth().then((userId) => { 
+        setUserId(userId);
+        basketStore.getUserBasket(userId).then(products => {
+          setListBasket(products);
+        })
+      });
     }
     //basketStore.getUserBasket().then(products => setListBasket(products));
     //authStore.checkAuth().then(id =>  setUserId(id));
@@ -52,7 +57,7 @@ const Basket = observer(() => {
           </div>
        
           <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-            <button type="button" className="btn btn-primary btn-sm" onClick={() => { basketStore.deleteFromBasket(product.product.id); setListBasket(basketList.filter((productBasket) => productBasket.product.id !== product.product.id)); }}>Убрать из корзины</button>
+            <button type="button" className="btn btn-primary btn-sm" onClick={() => { basketStore.deleteFromBasket(userId, product.product.id); setListBasket(basketList.filter((productBasket) => productBasket.product.id !== product.product.id)); }}>Убрать из корзины</button>
           </div>
         </div>
       </div>

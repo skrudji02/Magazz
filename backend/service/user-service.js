@@ -4,6 +4,14 @@ const bcrypt = require('bcrypt')
 const TokenService = require('../service/token-service');
 const AuthError = require('../exceptions/authError');
 
+class UserDto {
+  constructor(model) {
+    this.id = model.id;
+    this.email = model.email;
+    this.role = model.role;
+  }
+}
+
 class UserService {
 
   async registration(email, password) {
@@ -14,68 +22,45 @@ class UserService {
     }
     const hashPassword = await bcrypt.hash(password, 5);
     const create_user = await User.create({ email, password: hashPassword });
-    const id = create_user.id;
-    const role = create_user.role;
-    const create_basket = await Basket.create({ userId: id });
-    const payload = {
-      id,
-      email,
-      role
-    };
-    const token = TokenService.generateAccessToken(payload);
-    return token;
+    const create_basket = await Basket.create({ userId: create_user.id });
+    const payload = new UserDto(create_user);
+    const token = TokenService.generateAccessToken({...payload});
+    return { token, user: payload };
   }
 
   async login(email, password) {
-    
+
     const user = await User.findOne({ where: { email } });
     let comparePassword = bcrypt.compareSync(password, user.password);
-
     if (user && comparePassword) {
-      const id = user.id;
-      const role = user.role;
-      const payload = {
-        id,
-        email,
-        role
-      };
-      const token = TokenService.generateAccessToken(payload);
-      return token;
+      const payload = new UserDto(user);
+      const token = TokenService.generateAccessToken({...payload});
+      return { token, user: payload };
     }
     else {
       throw AuthError.BadRequest("Некорректные данные");
     }
-
   }
 
   async refresh(refreshToken) {
 
     if (!refreshToken) {
+      console.log('error refreshToken');
       throw ApiError.UnauthorizedError();
     }
-
     const userData = TokenService.validateRefreshToken(refreshToken);
-
-
     if (!userData) {
+      console.log('error userData');
       throw ApiError.UnauthorizedError();
     }
-    const email = userData.email;
-    const user = await User.findOne({ where: { email } });
-    const id = user.id;
-    const role = user.role;
-    const payload = {
-      id,
-      email,
-      role
-    };
-    const token = TokenService.generateAccessToken(payload);
-
-    return token;
+    const user = await User.findOne({ where: { email: userData.email } });
+    const payload = new UserDto(user);
+    const token = TokenService.generateAccessToken({...payload});
+    return {token, user: payload};
   }
 
   // Service users (test postman). For the admin panel.
-
+/*
   async getAllUsers() {
     const users = await User.findAll();
     return users;
@@ -111,7 +96,7 @@ class UserService {
     const update_user = await user.reload();
     return update_user;
   }
-
+*/
 }
 
 module.exports = new UserService();

@@ -23,6 +23,18 @@ export default class AuthStore{
         this.user = user;
     }
 
+    getUser() {
+      return this.user;
+    }
+
+    getUserId() {
+      return this.id;
+    }
+
+    getAuth() {
+      return this.isAuth;
+    }
+
     setRole(role){
         this.role = role;
     }
@@ -35,11 +47,15 @@ export default class AuthStore{
         try{
             const response = await AuthService.login(email, password);
             localStorage.setItem('token', response.data.accessToken);
-            const userData = jwt_decode(response.data.accessToken);
+            console.log(response.data.user);
             this.setAuth(true);
-            this.setUser(email);
-            this.setRole(userData.role);
-            this.setUserId(userData.id);
+            this.setUser(response.data.user);
+            //const userData = jwt_decode(response.data.accessToken);
+            //this.setAuth(true);
+            //this.setUser(email);
+             //this.setRole(userData.role);
+           // this.setUserId(userData.id);
+           return response.data.user;
         }catch(err){
             console.log(err.response.data.message);
         }
@@ -50,9 +66,10 @@ export default class AuthStore{
         try {
             const response = await AuthService.registration(email, password);
             localStorage.setItem('token', response.data.accessToken);
-            const userData = jwt_decode(response.data.accessToken);
+            console.log(response.data.user);
             this.setAuth(true);
-            this.setUser(userData.email);
+            this.setUser(response.data.user);
+            return response.data.user;
         } catch (err) {
             console.log(err.response.data.message);
         }
@@ -75,12 +92,16 @@ export default class AuthStore{
         try{
             const response = await axios.get(AUTH_URL + '/user/refresh', {withCredentials: true});
             localStorage.setItem('token', response.data.accessToken);
-            const userData = jwt_decode(response.data.accessToken);
             this.setAuth(true);
-            this.setUser(userData.email);
-            this.setRole(userData.role);
-            this.setUserId(userData.id);
-            return userData.id;
+            console.log(response.data.user);
+            this.setUser(response.data.user);
+            this.setUserId(response.data.user.id)
+            //const userData = jwt_decode(response.data.accessToken);
+            //this.setAuth(true);
+            //this.setUser(userData.email);
+            //this.setRole(userData.role);
+            //this.setUserId(userData.id);
+            return response.data.user.id;
         }catch(err){
             console.log(err.response.data.message);
         }

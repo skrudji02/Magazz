@@ -11,7 +11,7 @@ const Home = () => {
   const [recomGuitar, setGuitar] = useState([]);
 
   useEffect(() => {
-    ratingStore.getTopProduct().then((products) => { setGuitar(products); });
+    ratingStore.getTopProduct().then((products) => { setGuitar(products) });
   }, []);
 
   
@@ -19,7 +19,7 @@ const Home = () => {
     return <div className="col-lg-3 col-md-2">
     <div className="single-product">
       <div className="product-img">
-        <img className="img-fluid recom-img" src={guitar.product.img} alt="pic" />
+        <img className="img-fluid recom-img" src={guitar.img} alt="pic" />
         <div className="p_icon">
           <a href="#">
             <i className="ti-eye"></i>
@@ -34,10 +34,10 @@ const Home = () => {
       </div>
       <div className="product-btm">
         <a href="#" className="d-block">
-          <h4>{guitar.product.name}</h4>
+          <h4>{guitar.name}</h4>
         </a>
         <div className="mt-3">
-          <span className="mr-4">{guitar.product.price} p</span>
+          <span className="mr-4">{guitar.price} p</span>
         </div>
       </div>
     </div>
@@ -65,32 +65,7 @@ const Home = () => {
               
               {ProductList}
 
-              <div className="col-lg-3 col-md-6">
-                <div className="single-product">
-                  <div className="product-img">
-                    <img className="img-fluid recom-img" src="/img/foto2.png" alt="pic4" />
-                    <div className="p_icon">
-                      <a href="#">
-                        <i className="ti-eye"></i>
-                      </a>
-                      <a href="#">
-                        <i className="ti-heart"></i>
-                      </a>
-                      <a href="#">
-                        <i className="ti-shopping-cart"></i>
-                      </a>
-                    </div>
-                  </div>
-                  <div className="product-btm">
-                    <a href="#" className="d-block">
-                      <h4>Men stylist Smart Watch</h4>
-                    </a>
-                    <div className="mt-3">
-                      <span className="mr-4">$25.00</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              
             </div>
           </div>
         </section>

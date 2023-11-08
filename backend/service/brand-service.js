@@ -1,4 +1,4 @@
-const {Brand} = require('../models/product-model');
+const { Brand } = require('../models/brand-model');
 
 class BrandService{
 

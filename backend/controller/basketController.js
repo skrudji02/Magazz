@@ -5,9 +5,7 @@ class basketController {
   async getBasketUser(req, res) {
     try {
       const { userId } = req.query;
-      console.log(userId);
       const basket_user = await basketService.getBasket(userId);
-      console.log(basket_user);
       return res.json(basket_user);
     } catch (err) {
       console.log(err);

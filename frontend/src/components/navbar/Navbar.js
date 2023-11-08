@@ -10,7 +10,6 @@ const Navbar = observer(() => {
   useEffect( () => {
     if(localStorage.getItem('token')){
       authStore.checkAuth();
-     
     }
   }, []);
 
@@ -27,15 +26,16 @@ const Navbar = observer(() => {
               <Link to='/magazz/home/' className="nav-link active" aria-current="page">Главная</Link>
             </li>
             <li className="nav-item">
-                <Link to='/magazz/product/guitar' className="nav-link active">Товары</Link>
+                <Link to='/magazz/catalog/types' className="nav-link active">Товары</Link>
             </li>
-                { authStore.role == 'ADMIN' ? <li className="nav-item"><Link to='/magazz/product' className="nav-link active">Админ</Link></li> : <li></li>}
+                { authStore.user.role === 'ADMIN' ? <li className="nav-item"><Link to='/magazz/product' className="nav-link active">Админ</Link></li> : <li></li>}
+          {  console.log(authStore.isAuth)}
           </ul>
           <form className="d-flex" role="search">
           <Link to='/magazz/basket' className="btn btn-outline-success">Корзина</Link> 
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                {authStore.isAuth ? <div className="nav-link active">{authStore.user} | <a onClick={() => authStore.logout()}>Выйти</a></div> : <div className="nav-link active"><Link to='/magazz/user/registration'>Регистрация</Link> | <Link to='/magazz/user/login'>Войти</Link></div>}
+                {authStore.isAuth ? <div className="nav-link active">{authStore.user.email} | <a onClick={() => authStore.logout()}>Выйти</a></div> : <div className="nav-link active"><Link to='/magazz/user/registration'>Регистрация</Link> | <Link to='/magazz/user/login'>Войти</Link></div>}
               </li>
             </ul>
           </form>

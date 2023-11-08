@@ -5,22 +5,24 @@ import { useState, useEffect, useContext } from 'react';
 import ProductService from '../services/ProductService';
 import { Context } from "../index";
 import ProductList from '../components/ProductList';
+import { useParams } from 'react-router-dom';
 
 import { observer } from 'mobx-react-lite';
 
 const Products = observer(() => {
 
-  const { typeStore, brandStore } = useContext(Context);
+  const { typeStore, brandStore, authStore} = useContext(Context);
   const [brandsList, setListBrands] = useState([]);
   const [typesList, setListTypes] = useState([]);
   const [guitar, setGuitar] = useState([]);
   const [tipeId, setType] = useState([]);
   const [brandsId, setBrandsId] = useState([]);
+  const { id } = useParams();
   let listBrandsId = [];
 
   async function getGuitars(typeId, brandsId) {
     try {
-      const response = await ProductService.fetchGuitar(typeId, brandsId);
+      const response = await ProductService.fetchGuitar(id, brandsId);
       setGuitar(response.data);
     } catch (err) {
       console.log(err);
@@ -91,7 +93,7 @@ const Products = observer(() => {
               <div className="col-lg-9">
                 <div className="latest_product_inner">
                   <div className="row">
-                    <ProductList guitar={guitar}></ProductList>
+                    <ProductList guitar={guitar} typeId={id}></ProductList>
                   </div>
                 </div>
               </div>

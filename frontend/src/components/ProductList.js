@@ -2,11 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 
-const ProductList = observer(({ guitar }) => {
+const ProductList = observer(({ guitar, typeId }) => {
     return (guitar.map(function (item) {
         return <div className="col-lg-4 col-md-2">
           
-            <Link to={'/magazz/product/guitar/' + item.id} className="single-product" aria-current="page">
+            <Link to={`/magazz/catalog/types/${typeId}/product/` + item.id} className="single-product" aria-current="page">
                 <div className="product-img">
                     <img
                         className="card-img"

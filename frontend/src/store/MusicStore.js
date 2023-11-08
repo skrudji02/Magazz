@@ -1,27 +1,29 @@
 import ProductService from '../services/ProductService';
+import AuthStore from '../store/AuthStore';
 import {makeAutoObservable} from "mobx";
 import jwt_decode from 'jwt-decode';
 
 export default class MusicStore{
 
-  async userId(){
-    return jwt_decode(localStorage.getItem('token')).id;
-  }
+
     
     async getProducts(typeId){
         try{
             const response = await ProductService.fetchGuitar(typeId);
+            console.log(response);
             return response.data;
         }catch(err){
             console.log(err.response.data.message);
         }
     }
 
-    async getProduct(id){
+    async getProduct(id, userId){
       try{
-        const userId = await this.userId();
+        //const userId = await this.userId();
+        //onsole.log(response);
+        console.log(userId);
         const response = await ProductService.getOneGuitar(id, userId);
-        console.log(response.data)
+        //console.log(response.data.user.id)
         return response.data;
       }catch(err){
         console.log(err.response.data.message);

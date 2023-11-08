@@ -5,7 +5,8 @@ class guitarController {
 
   async getGuitars(req, res) {
     const { typeId, brandsId } = req.query;
-
+    console.log(req.body);
+    console.log(req.params);
     try {
       if (typeId) {
         const guitars = await guitarService.getTypeGuitar(typeId);
@@ -48,9 +49,10 @@ class guitarController {
     try {
       const { id } = req.params;
       const { userId } = req.query;
-      const guitar = await guitarService.getOneGuitar(Number(id));
+      const { guitar, specification } = await guitarService.getOneGuitar(Number(id));
       const ratingProduct = await ratingService.getRatingOneProduct(Number(userId), Number(id));
-      return ratingProduct === null ? res.json({guitar: guitar}) : res.json({guitar: guitar, ratingProduct: ratingProduct.rate});
+      console.log(specification);
+      return ratingProduct === null ? res.json({guitar: guitar, specification: specification}) : res.json({guitar: guitar, specification: specification, ratingProduct: ratingProduct.rate});
     }
     catch (err) {
       console.log(err);

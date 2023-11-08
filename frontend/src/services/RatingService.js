@@ -6,7 +6,7 @@ export default class RatingService {
     return $host.get('/home');
   }
 
-  static setRatingUser(rate, userId, productId) {
-    return $host.post(`/product/guitar/${productId}`, { rate, userId, productId });
+  static setRatingUser(rate, productId, userId) {
+    return $host.post(`/catalog/types/:id/product/${productId}`, { rate, productId, userId });
   }
 }

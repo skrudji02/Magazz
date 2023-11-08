@@ -1,9 +1,11 @@
 const AuthError = require('../exceptions/authError');
-const TokenService = require('../service/token-service');
+const tokenService = require('../service/token-service');
 
-module.exports = function(req, res, next){
+module.exports = async function(req, res, next){
     try{
+      console.log('sssssssssssssssssssssssssssssssssss');
         const authorizationHeader = req.headers.authorization;
+        console.log(authorizationHeader);
         if (!authorizationHeader) {
             return next(AuthError.UnauthorizedError());
         }
@@ -13,14 +15,18 @@ module.exports = function(req, res, next){
             return next(AuthError.UnauthorizedError());
         }
 
-        const userData = TokenService.validateAccessToken(accessToken);
+        const userData = tokenService.validateAccessToken(accessToken);
         if (!userData) {
             return next(AuthError.UnauthorizedError());
         }
+        
         req.user = userData;
+        console.log('sssssssssssssssssssssssssssssssssss');
+   
+ 
         next();
 
     }catch(err){
         return next(AuthError.UnauthorizedError());
     }
-}
+};

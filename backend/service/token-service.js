@@ -5,12 +5,11 @@ class TokenService{
     generateAccessToken(payload)
     {
         const accessToken = jwt.sign(payload, secret.SECRET, {expiresIn: '15h'});
-        const refreshToken = jwt.sign(payload, secret.REFRESH_SECRET, {expiresIn: '30h'});      
+        const refreshToken = jwt.sign(payload, secret.REFRESH_SECRET, {expiresIn: '30h'});    
         return {accessToken, refreshToken}
     }
 
-    validateAccessToken(token) {
-        
+    validateAccessToken(token) { 
         try {
             const userData = jwt.verify(token, secret.SECRET);
             return userData;
@@ -22,6 +21,7 @@ class TokenService{
     validateRefreshToken(token) {
         try {
             const userData = jwt.verify(token, secret.REFRESH_SECRET);
+            console.log(userData);
             return userData;
         } catch (err) {
             return null;
